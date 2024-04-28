@@ -8,7 +8,7 @@
         {
             "src": "/admin-assets/(.*)",
             "dest": "/public/admin-assets/"
-        }
+        },
         {
             "src": "/(.*)",
             "dest": "/api/index.php"
