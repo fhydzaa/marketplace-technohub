@@ -1,85 +1,65 @@
+
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Laravel Shop :: Administrative Panel</title>
-		<!-- Google Font: Source Sans Pro -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-		<!-- Font Awesome -->
-		<link rel="stylesheet" href="{{ asset('admin-assets/plugins/fontawesome-free/css/all.min.css') }}">
-		<!-- Theme style -->
-		<link rel="stylesheet" href="{{ asset('admin-assets/css/adminlte.min.css') }}">
-		<link rel="stylesheet" href="{{ asset('admin-assets/css/custom.css') }}">
-	</head>
-	<body class="hold-transition login-page">
-		<div class="login-box">
-			<!-- /.login-logo -->
-			@include('admin.massege')
-			<div class="card card-outline card-primary">
-			  	<div class="card-header text-center">
-					<a href="#" class="h3">Administrative Panel</a>
-			  	</div>
-			  	<div class="card-body">
-					<p class="login-box-msg">Sign in to start your session</p>
-					<form action="{{ route('admin.authenticate') }}" method="post">
-				  		@csrf
-						<div class="input-group mb-3">
-							<input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email">
-							<div class="input-group-append">
-					  			<div class="input-group-text">
-									<span class="fas fa-envelope"></span>
-					  			</div>
-							</div>
-							
-							@error('email')
-							<p class="invalid-feedback">{{ $message }}</p>
-							@enderror
-				  		</div>
-				  		<div class="input-group mb-3">
-							<input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
-							<div class="input-group-append">
-					  			<div class="input-group-text">
-									<span class="fas fa-lock"></span>
-					  			</div>
-							</div>
-							
-							@error('email')
-							<p class="invalid-feedback">{{ $message }}</p>
-							@enderror
-				  		</div>
-				  		<div class="row">
-							<!-- <div class="col-8">
-					  			<div class="icheck-primary">
-									<input type="checkbox" id="remember">
-									<label for="remember">
-						  				Remember Me
-									</label>
-					  			</div>
-							</div> -->
-							<!-- /.col -->
-							<div class="col-4">
-					  			<button type="submit" class="btn btn-primary btn-block">Login</button>
-							</div>
-							<!-- /.col -->
-				  		</div>
-					</form>
-		  			<p class="mb-1 mt-3">
-				  		<a href="forgot-password.html">I forgot my password</a>
-					</p>					
-			  	</div>
-			  	<!-- /.card-body -->
-			</div>
-			<!-- /.card -->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ asset('admin-assets/style.css') }}" />
+  </head>
+  <body>
+	<div class="container">
+		<div class="row-cols-1 mt-3">
+			
 		</div>
-		<!-- ./wrapper -->
-		<!-- jQuery -->
-		<script src="{{ asset('admin-assets/plugins/jquery/jquery.min.js') }}"></script>
-		<!-- Bootstrap 4 -->
-		<script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-		<!-- AdminLTE App -->
-		<script src="{{ asset('admin-assets/js/adminlte.min.js') }}"></script>
-		<!-- AdminLTE for demo purposes -->
-		<!-- <script src="js/demo.js"></script> -->
-	</body>
+		<div class="row-cols-1">
+			<div class="container-login">
+				<div class="container p-4 d-flex flex-row gap-4 rounded-4">
+				  <img src="{{ asset('admin-assets/logotech.png') }}" alt="LogotechNoHub" />
+				  <div class="container">
+					<form action="{{ route('admin.authenticate') }}" method="post">
+					  @csrf
+					  
+					  <h2>Hello,Everyone</h2>
+					  <p class="mb-5">we are glad you are here!</p>
+					  @include('admin.massege')
+					  <div class="mb-2 position-relative">
+						<img class="image-email" src="{{ asset('admin-assets/email.png') }}" alt="email" width="20px" height="20px" />
+						<input type="email" class="form-control email rounded-4" id="email" name="email" aria-describedby="emailHelp" placeholder="Email" />
+						<hr class="position-absolute  translate-middle-x email">
+						@error('email')
+									  <p class="invalid-feedback">{{ $message }}</p>
+									  @enderror
+					  </div>
+					  <div class="mb-2 mt-n5 position-relative">
+						<img class="image-password" src="{{ asset('admin-assets/password.png') }}" alt="password" width="20px" height="20px" />
+						<input type="password" class="form-control password rounded-4" id="password" name="password" placeholder="Password" />
+						<hr class="position-absolute translate-middle-x email">
+						@error('password')
+									  <p class="invalid-feedback">{{ $message }}</p>
+									  @enderror
+					  </div>
+					  <div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input remember-me" id="remember-me" />
+						<label class="form-check-label" for="remember-me">Remember Me</label>
+					  </div>
+					  <div class="mb-5">
+						<button type="submit" class="button-login btn btn-primary mb-4 w-100 rounded-4">Login</button>
+					  </div>
+					  <div>
+						<p>
+						  Don’t have any account?
+						  <a href="#" class="text-decoration-none text-danger">Daftar</a>
+						</p>
+					  </div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+		</div>
+	</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
 </html>

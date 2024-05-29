@@ -1,0 +1,179 @@
+body {
+  font-family: 'Poppins', sans-serif;
+    padding-top: 70px; /* Adjust based on navbar height */
+}
+
+.brand {
+  color: #123159;
+}
+
+.button-login {
+  background-color: #123159;
+  color: white;
+  padding: 0 20px;
+}
+
+.button-login:hover {
+  background-color: aqua;
+  color: black;
+}
+
+.nav-item:hover {
+  border-bottom: 1px solid black;
+}
+
+.navbar-collapse {
+  box-shadow: none !important;
+  border: none !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.navbar-collapse ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-collapse ul li {
+  text-align: center;
+}
+
+.navbar-collapse .modal-button {
+  display: flex;
+  justify-content: center;
+}
+
+/* HERO ELEMENT */
+
+.hero-element {
+  width: 100%;
+  height: auto;
+  background-color: #123159;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-elements {
+  opacity: 0;
+  transform: translateY(50%);
+  transition: opacity 3s ease, transform 3s ease;
+}
+
+.hero-element .d-flex {
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+@media screen and (min-width: 768px) {
+  .hero-element {
+    flex-direction: row-reverse;
+  }
+
+  .hero-element .d-flex {
+    margin-top: 0;
+    margin-left: 20px; /* Adjust margin as needed */
+  }
+
+  .hero-element .d-flex:first-child {
+    order: 2;
+  }
+
+  .hero-element .d-flex:last-child {
+    order: 1;
+  }
+}
+
+/* Adjust width for smaller screens */
+@media screen and (max-width: 767px) {
+  .hero-element .d-flex img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* conten genre produk  */
+.section-animation {
+  opacity: 0;
+  transform: translateY(50%);
+  transition: opacity 5s ease, transform 3s ease;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* kontent about */
+.title-about {
+  color: #123159;
+}
+
+hr {
+  border: none; /* Menghapus border bawaan */
+  border-top: 2px solid black; /* Menambahkan border baru dengan ketebalan 3px */
+}
+
+.deskripsi-about {
+  text-align: justify;
+  margin-right: 2rem;
+}
+
+.buttonAbout {
+  background-color: #123159;
+}
+
+.about-img {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 3s ease, transform 3s ease;
+}
+
+.about-img.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* rekomendasi produk  */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.card.pulse {
+  animation: pulse 0.5s forwards;
+  cursor: pointer;
+}
+
+.card {
+  transition: transform 0.5s;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+#search-product { 
+  width: 600px;
+}
+
+  #footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #123159;
+  }
