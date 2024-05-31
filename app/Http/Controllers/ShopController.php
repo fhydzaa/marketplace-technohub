@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
@@ -18,8 +19,9 @@ class ShopController extends Controller
         $product = $product->get();
 
         $data['product'] =$product;
+        $user = session('user', Auth::user());
 
-        return view('front.shop', $data);
+        return view('front.shop', $data,['user' => $user]);
     }
 
     public function product($slug){
@@ -29,6 +31,7 @@ class ShopController extends Controller
             abort(404);
         }
         $data['product'] =$product;
-        return view('front.product', $data);
+        $user = session('user', Auth::user());
+        return view('front.product', $data, ['user' => $user]);
     }
 }

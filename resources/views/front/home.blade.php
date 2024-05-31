@@ -15,7 +15,7 @@
         menghadirkan solusi digital terbaik dalam genggaman.
       </p>
       <div class="border-0">
-        <button href="#" class="btn btn-primary btn-lg rounded-4">Get Product</button>
+        <a href="{{ route('front.product') }}" class="btn btn-primary btn-lg rounded-4">Get Product</a>
       </div>
     </div>
   </section>

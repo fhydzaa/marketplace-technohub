@@ -6,12 +6,21 @@ use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
         $product = Product::with('product_image')->find($request->id);
+
+        // if (!Auth::check()) {
+        //     session()->flash('error', 'Silahkan login terlebih dahulu');
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Silahkan login terlebih dahulu'
+        //     ]);
+        // }
 
         if ($product == NULL) {
             return response()->json([
@@ -39,6 +48,7 @@ class CartController extends Controller
                 $status = false;
                 $massege = $product->title . ' sudah ada di keranjang';
             }
+            
 
         } else {
             Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
@@ -55,9 +65,10 @@ class CartController extends Controller
     {
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
+        $user = session('user', Auth::user());
             //         dd($cartContent);
             // exit();
-        return view('front.cart', $data);
+        return view('front.cart', $data, ['user' => $user]);
     }
 
     public function updateCart(Request $request)

@@ -2,24 +2,50 @@
 <div class="container-fluid">
     <div class="container d-flex flex-row gap-5">
         <div class="col-6 d-flex flex-column gap-2 mt-5">
-            <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div
+                id="product-carousel"
+                class="carousel slide"
+                data-bs-ride="carousel"
+            >
                 <div class="carousel-inner bg-light">
                     @if($product->product_image)
                     @foreach($product->product_image as $key => $productImage)
                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                        <img class="w-100 h-100"
-                             src="{{ asset('uploads/product/large/'.$productImage->image) }}"
-                             alt="Image"
+                        <img
+                            class="w-100 h-100"
+                            src="{{ asset('uploads/product/large/'.$productImage->image) }}"
+                            alt="Image"
                         />
-                    </div>  
-                    @endforeach
-                    @endif
+                    </div>
+                    @endforeach @endif
                 </div>
-                <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
-                    <i class="fa fa-2x fa-angle-left text-dark" style="background-color: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 5px;"></i>
+                <a
+                    class="carousel-control-prev"
+                    href="#product-carousel"
+                    data-bs-slide="prev"
+                >
+                    <i
+                        class="fa fa-2x fa-angle-left text-dark"
+                        style="
+                            background-color: rgba(255, 255, 255, 0.3);
+                            padding: 30px;
+                            border-radius: 5px;
+                        "
+                    ></i>
                 </a>
-                <a class="carousel-control-next" href="#product-carousel" data-bs-slide="next">
-                    <i class="fa fa-2x fa-angle-right text-dark" style="background-color: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 5px;"></i>
+                <a
+                    class="carousel-control-next"
+                    href="#product-carousel"
+                    data-bs-slide="next"
+                >
+                    <i
+                        class="fa fa-2x fa-angle-right text-dark"
+                        style="
+                            background-color: rgba(255, 255, 255, 0.3);
+                            padding: 30px;
+                            border-radius: 5px;
+                        "
+                    ></i>
                 </a>
             </div>
             <hr class="mt-5" style="width: 100%" />
@@ -28,7 +54,6 @@
                 <p style="text-align: justify">{!! $product->description !!}</p>
             </div>
         </div>
-        
 
         <div class="col-6 d-flex flex-column gap-2" style="margin-top: 100px">
             <h4>Rp {{ $product->price }}</h4>
@@ -122,17 +147,19 @@
             dataType: "json",
             success: function (response) {
                 if (response.status == true) {
-                    window.location.href="{{ route('front.cart') }}";
+                    window.location.href = "{{ route('front.cart') }}";
                 } else {
                     alert(response.message);
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX error:', error);
-                console.error('XHR:', xhr);
-                console.error('Status:', status);
-                alert('An error occurred. Please try again.');
-            }
+                if (xhr.status == 401) {
+                    alert("Silahkan login terlebih dahulu");
+                    window.location.href = "{{ route('account.login') }}";
+                } else {
+                    alert("Error - " + xhr.status + ": " + xhr.statusText);
+                }
+            },
         });
     }
 </script>

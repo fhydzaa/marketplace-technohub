@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <form
         class="mt-4 d-flex flex-column justify-content-center"
-        action="{{ route('front.shop') }}"
+        action="{{ route('front.product') }}"
         method="get"
     >
         <div class="container d-flex mb-5 gap-4 justify-content-center">
@@ -48,7 +48,7 @@
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ $prod->title }}</h5> <!-- Mengubah $product menjadi $prod -->
                     <p class="card-text">Rp {{ $prod->price }}</p> <!-- Mengubah $product menjadi $prod -->
-                    <a href="{{ route('front.product', $prod->slug) }}" class="btn btn-primary" style="position: absolute; bottom: 10px; right: 10px">Detail</a> <!-- Mengubah $product menjadi $prod -->
+                    <a href="{{ route('front.detilProduct', $prod->slug) }}" class="btn btn-primary" style="position: absolute; bottom: 10px; right: 10px">Detail</a> <!-- Mengubah $product menjadi $prod -->
                 </div>
             </div>
             @endforeach
