@@ -15,11 +15,19 @@
                 </a>
               </li>
               <li class="w-100 nav-item d-flex justify-content-center">
+                <a class="w-100 d-flex align-items-center nav-link fs-5" href="{{ route('product.page') }}">
+                  <div class="col-4 d-flex align-items-center justify-content-center">
+                    <img src="{{ asset('dashboard-assets/dashboard.png') }}" alt="dashboard image" width="30px" height="30px" />
+                  </div>
+                  <div class="col-8">Product</div>
+                </a>
+              </li>
+              <li class="w-100 nav-item d-flex justify-content-center">
                 <a class="w-100 d-flex align-items-center nav-link fs-5" href="#">
                   <div class="col-4 d-flex align-items-center justify-content-center">
                     <img src="{{ asset('dashboard-assets/dashboard.png') }}" alt="dashboard image" width="30px" height="30px" />
                   </div>
-                  <div class="col-8">Categories</div>
+                  <div class="col-8">Transaksi</div>
                 </a>
               </li>
               <li class="w-100 nav-item d-flex justify-content-center position-absolute bottom-0 start-50 translate-middle-x">

@@ -13,6 +13,9 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
+    public function index(){
+        return view('admin.product.page');
+    }
     public function create()
     {
         $data = [];

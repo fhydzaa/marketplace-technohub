@@ -102,13 +102,13 @@
                 </button>
             </div>
         </form>
-        <div
+        <!-- <div
             class="d-flex flex-row justify-content-center align-items-center w-100 mt-3"
         >
             <button type="button" class="btn btn-secondary rounded-4 px-4">
                 Kembali
             </button>
-        </div>
+        </div> -->
     </div>
 </div>
 @endsection @section('customJs')
@@ -174,7 +174,9 @@
                 type: "post",
                 data: fromArray,
                 dataType: "json",
-                success: function (response) {},
+                success: function (response) {
+                    window.location.reload();
+                },
                 error: function () {
                     console.log("Something Wrong");
                 },
@@ -197,6 +199,8 @@
                 var html = `<input type="hidden" name="image_array[]" value="${response.image_id}">`;
 
                 $("#product-gallery").append(html);
+                
+
             },
         });
 </script>
