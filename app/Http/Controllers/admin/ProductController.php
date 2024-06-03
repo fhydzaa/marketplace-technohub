@@ -13,7 +13,8 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin.product.page');
     }
     public function create()
@@ -47,8 +48,13 @@ class ProductController extends Controller
 
             if (!empty($request->image_array)) {
                 foreach ($request->image_array as $temp_image_id) {
-
                     $tempImageInfo = TempImages::find($temp_image_id);
+
+                    // Pastikan bahwa tempImageInfo tidak null
+                    if (!$tempImageInfo) {
+                        continue; // Lanjutkan ke iterasi berikutnya jika tidak ditemukan
+                    }
+
                     $extArray = explode('.', $tempImageInfo->name);
                     $ext = last($extArray);
 
@@ -61,22 +67,28 @@ class ProductController extends Controller
                     $productImage->image = $imageName;
                     $productImage->save();
 
-                    //large
                     $sourcePath = public_path() . '/temp/' . $tempImageInfo->name;
-                    $destppath = public_path() . '/uploads/product/large/' . $imageName;
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($sourcePath);
-                    $image->scale(width: 1400);
-                    $image->save($destppath);
 
-                    //small
-                    $destppath = public_path() . '/uploads/product/small/' . $imageName;
+                    // Periksa apakah source path ada
+                    if (!file_exists($sourcePath)) {
+                        continue; // Lanjutkan ke iterasi berikutnya jika file tidak ditemukan
+                    }
+
                     $manager = new ImageManager(new Driver());
+
+                    // Proses gambar ukuran besar
+                    $destLargePath = public_path() . '/uploads/product/large/' . $imageName;
+                    $image = $manager->read($sourcePath);
+                    $image->scale(1400);
+                    $image->save($destLargePath);
+
+                    // Proses gambar ukuran kecil
+                    $destSmallPath = public_path() . '/uploads/product/small/' . $imageName;
                     $image = $manager->read($sourcePath);
                     $image->scale(300, 275);
-                    $image->save($destppath);
+                    $image->save($destSmallPath);
                 }
-            };
+            }
 
             return response()->json([
                 'status' => true,

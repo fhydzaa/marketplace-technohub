@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('category');
-            $table->double('price', 10, 2);
+            $table->double('price', 10, 3);
             $table->integer('qty')->nullable();
             $table->text('description')->nullable();
             $table->integer('status')->default(1);

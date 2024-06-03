@@ -16,7 +16,8 @@ class tempImagesController extends Controller
         
         if (!empty($image)) {
             $ext = $image->getClientOriginalExtension();
-            $newName = time() . '.' . $ext;
+            $newName = time() . '-' . uniqid() . '.' . $ext;
+
 
             $tempImage = new TempImages();
             $tempImage->name = $newName;

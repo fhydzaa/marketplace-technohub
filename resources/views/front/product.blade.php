@@ -2,6 +2,7 @@
 <div class="container-fluid">
     <div class="container d-flex flex-row gap-5">
         <div class="col-6 d-flex flex-column gap-2 mt-5">
+            
             <div
                 id="product-carousel"
                 class="carousel slide"
@@ -49,16 +50,41 @@
                 </a>
             </div>
             <hr class="mt-5" style="width: 100%" />
-            <div class="d-flex flex-column gap-2">
-                <h4>Deskripsi Produk</h4>
+            <h4>Deskripsi Produk</h4>
+            <div class="d-flex flex-column gap-2 ps-3">
+                
                 <p style="text-align: justify">{!! $product->description !!}</p>
             </div>
         </div>
 
-        <div class="col-6 d-flex flex-column gap-2" style="margin-top: 100px">
+        <div class="col-6 d-flex flex-column mt-5">
+            <h2>{{ $product->title }}</h2>
+            <div class="d-flex align-items-center">
+                <h5>{{ $avgRating }}</h5>
+                <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
+                    <div class="back-stars">
+                        <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <div class="front-stars" style="width: {{ $avgRatingPer }}%">
+                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="ps-2">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
+            </div>
+            <br><br>
             <h4>Rp {{ $product->price }}</h4>
-            <p>Stok : {{ $product->qty }}</p>
-            <form>
+            <p>Stok: {{ $product->qty }}</p>
+
+        
+            <form class="mb-4">
                 <p>Kuantitas</p>
                 <div class="d-flex flex-row gap-1 align-item-center">
                     <img
@@ -100,34 +126,95 @@
                     </a>
                 </div>
             </form>
-            <div class="d-flex flex-column gap-3">
+            <div class="d-flex flex-column gap-3 mb-5">
+                <hr class="mt-2" style="width: 100%" />
+                <h4>Ulasan Produk</h4>
                 <div class="container d-flex flex-row">
-                    <div class="mt-5 w-100">
-                        <img
-                            src="{{ asset('front-assets/img/product.png') }}"
-                            alt="Customer Review"
-                        />
-                    </div>
-                    <div
-                        class="mt-5 d-flex flex-column"
-                        style="text-align: justify"
-                    >
-                        <h3>Asep Karbu</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quis magnam doloribus et architecto maiores
-                            eum dolor minima vel pariatur ullam. Ex, vitae ipsum
-                            praesentium voluptate esse doloribus voluptates
-                            reprehenderit tempore nobis amet perferendis, odit
-                            fugiat adipisci! Eligendi in ipsa at quis, provident
-                            deleniti officiis nostrum, molestiae amet labore
-                            ipsam consectetur?
-                        </p>
+                    <div class="d-flex flex-column" style="text-align: justify">
+                        
+                        <div class="d-flex flex-column gap-2 ps-3">
+                            
+
+                            @if($product->product_ratings->isNotEmpty())
+                            @foreach($product->product_ratings->take(2) as $rating)
+                            @php
+                                $ratingPer = ($rating->rating*100)/5;
+                            @endphp
+                            <div
+                                class="carousel-item {{
+                                    $key == 0 ? 'active' : ''
+                                }}"
+                            >
+                                <div class="rating-group mb-4">
+                                    <span class="author"
+                                        ><strong
+                                            >{{ $rating->username }}</strong
+                                        ></span
+                                    >
+                                    <div class="star-rating mt-2">
+                                        <div class="back-stars">
+                                            <i
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+
+                                            <div
+                                                class="front-stars"
+                                                style="width: {{ $ratingPer }}%"
+                                            >
+                                                <i
+                                                    class="fa fa-star"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <i
+                                                    class="fa fa-star"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <i
+                                                    class="fa fa-star"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <i
+                                                    class="fa fa-star"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <i
+                                                    class="fa fa-star"
+                                                    aria-hidden="true"
+                                                ></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="my-3">
+                                        <p>
+                                            {{$rating->comment}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach @endif
+                        </div>
                     </div>
                 </div>
                 <div class="container mt-2 d-flex justify-content-end">
                     <a
-                        href="#"
+                        href="{{ route('front.review', $product->slug) }}"
                         class="btn"
                         style="background-color: #123159; color: white"
                         >More Review</a
@@ -135,6 +222,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 @endsection @section('customJs')

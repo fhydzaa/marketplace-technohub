@@ -35,6 +35,8 @@ use App\Http\Controllers\admin\tempImagesController;
     Route::get('/', [FrontController::class, 'index'])->name('front.home');
     Route::get('/product', [ShopController::class, 'index'])->name('front.product');
     Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
+    Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
+    Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
 
     Route::group(['middleware' => 'guest'], function () {
         Route::get('/register', [AuthController::class, 'register'])->name('account.register');
