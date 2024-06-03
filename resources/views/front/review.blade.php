@@ -78,6 +78,7 @@
 
 
 
+
                             }})
                         </div>
                     </div>
@@ -99,7 +100,7 @@
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <div
                                     class="front-stars"
-                                    style="width: {{ $avgRatingPer }}%"
+                                    style="width: {{ $ratingPer }}%"
                                 >
                                     <i
                                         class="fa fa-star"
@@ -164,7 +165,7 @@
                                 class="form-control"
                                 name="email"
                                 id="email"
-                                placeholder="{{ $user->email }}"
+                                value="{{ $user->email }}"
                                 readonly
                             />
 
