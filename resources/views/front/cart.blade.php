@@ -53,7 +53,7 @@
                 </div>
                 <div class="d-flex flex-column p-3">
                     <h2 class="mt-3">{{ $item->name }}</h2>
-                    <h5>Rp {{ $item->price }}</h5>
+                    <h5>Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                     <div class="d-flex flex-row gap-2 align-items-center mt-5">
                         <button
                             type="button"
@@ -98,7 +98,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-2">
                         <div>Subtotal</div>
-                        <div>Rp {{ Cart::subtotal(0,0) }}</div>
+                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}</div>
                     </div>
                     <div class="d-flex justify-content-between pb-2">
                         <div>Shipping</div>
@@ -106,7 +106,7 @@
                     </div>
                     <div class="d-flex justify-content-between summery-end">
                         <div>Total</div>
-                        <div>Rp {{ Cart::subtotal(0,0) }}</div>
+                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}    </div>
                     </div>
                     <div class="pt-5">
                         <a href="#" class="btn-dark btn btn-block w-100"

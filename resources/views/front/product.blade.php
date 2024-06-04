@@ -80,7 +80,7 @@
                 <div class="ps-2">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
             </div>
             <br><br>
-            <h4>Rp {{ $product->price }}</h4>
+            <h4>Rp {{ number_format($product->price, 0, ',', '.') }}</h4>
             <p>Stok: {{ $product->qty }}</p>
 
         
@@ -131,93 +131,51 @@
                 <h4>Ulasan Produk</h4>
                 <div class="container d-flex flex-row">
                     <div class="d-flex flex-column" style="text-align: justify">
-                        
-                        <div class="d-flex flex-column gap-2 ps-3">
-                            
-
+                        <div class="d-flex flex-column gap-2 ps-3" style="max-height: 200px; overflow-y: auto; padding-right: 30px; margin-left: auto;">
                             @if($product->product_ratings->isNotEmpty())
-                            @foreach($product->product_ratings->take(2) as $rating)
+                            @foreach($product->product_ratings as $rating)
                             @php
                                 $ratingPer = ($rating->rating*100)/5;
                             @endphp
-                            <div
-                                class="carousel-item {{
-                                    $key == 0 ? 'active' : ''
-                                }}"
-                            >
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                 <div class="rating-group mb-4">
-                                    <span class="author"
-                                        ><strong
-                                            >{{ $rating->username }}</strong
-                                        ></span
-                                    >
+                                    <span class="author"><strong>{{ $rating->username }}</strong></span>
                                     <div class="star-rating mt-2">
                                         <div class="back-stars">
-                                            <i
-                                                class="fa fa-star"
-                                                aria-hidden="true"
-                                            ></i>
-                                            <i
-                                                class="fa fa-star"
-                                                aria-hidden="true"
-                                            ></i>
-                                            <i
-                                                class="fa fa-star"
-                                                aria-hidden="true"
-                                            ></i>
-                                            <i
-                                                class="fa fa-star"
-                                                aria-hidden="true"
-                                            ></i>
-                                            <i
-                                                class="fa fa-star"
-                                                aria-hidden="true"
-                                            ></i>
-
-                                            <div
-                                                class="front-stars"
-                                                style="width: {{ $ratingPer }}%"
-                                            >
-                                                <i
-                                                    class="fa fa-star"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <i
-                                                    class="fa fa-star"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <i
-                                                    class="fa fa-star"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <i
-                                                    class="fa fa-star"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <i
-                                                    class="fa fa-star"
-                                                    aria-hidden="true"
-                                                ></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <div class="front-stars" style="width: {{ $ratingPer }}%">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="my-3">
-                                        <p>
-                                            {{$rating->comment}}
-                                        </p>
+                                        <p>{{ $rating->comment }}</p>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach @endif
+                            @endforeach
+
+                            @else
+                            <p>Produk belum memiliki ulasan</p>
+                            @endif
                         </div>
                     </div>
                 </div>
+                
                 <div class="container mt-2 d-flex justify-content-end">
                     <a
                         href="{{ route('front.review', $product->slug) }}"
                         class="btn"
                         style="background-color: #123159; color: white"
-                        >More Review</a
+                        >Tambah Ulasan</a
                     >
                 </div>
             </div>

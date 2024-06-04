@@ -18,7 +18,8 @@ class ShopController extends Controller
         } 
         
         $product = $product->orderBy('id','DESC');
-        $product = $product->get();
+
+        $product = $product->paginate(6);
 
         $data['product'] =$product;
         $user = session('user', Auth::user());

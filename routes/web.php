@@ -35,7 +35,6 @@ use App\Http\Controllers\admin\tempImagesController;
     Route::get('/', [FrontController::class, 'index'])->name('front.home');
     Route::get('/product', [ShopController::class, 'index'])->name('front.product');
     Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
-    Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
     Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
 
     Route::group(['middleware' => 'guest'], function () {
@@ -49,6 +48,7 @@ use App\Http\Controllers\admin\tempImagesController;
         Route::get('/logout', [AuthController::class, 'logout'])->name('account.logout');
         Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
         Route::get('/profile', [AuthController::class, 'profile'])->name('account.profile');
+        Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
         Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('front.addToCart');
         Route::post('/update-cart', [CartController::class, 'updateCart'])->name('front.updateCart');
         Route::post('/delete-cart', [CartController::class, 'deleteCart'])->name('front.deleteCart.cart');

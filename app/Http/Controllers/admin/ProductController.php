@@ -13,9 +13,34 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.product.page');
+        $product = Product::latest('id')->with('product_image');
+
+        if(!empty($request->get('search'))){
+            $search = $request->get('search');
+            $product = $product->where(function($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                      ->orWhere('id', 'like', '%' . $search . '%')
+                      ->orWhere('price', 'like', '%' . $search . '%')
+                      ->orWhere('price', 'like', '%' . $search . '%');
+            });
+        }
+
+        // if(!empty($request->get('search'))){
+        //     $product = $product->where('title','like','%'.$request->get('search').'%');
+        // } 
+        
+
+
+        $product = $product->orderBy('id','DESC');
+
+        $product = $product->paginate(6);
+                
+        $data['product'] = $product;
+        // dd($data);
+        // exit();
+        return view('admin.product.page', $data);
     }
     public function create()
     {

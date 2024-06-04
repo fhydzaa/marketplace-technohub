@@ -31,7 +31,7 @@
                 Back
             </button>
             <br /><br />
-            <div>
+            <!-- <div>
                 <div class="overall-rating mb-3">
                     <h3 class="h4 pb-3">Ulasan Produk</h3>
                     <div class="d-flex align-items-center">
@@ -131,7 +131,7 @@
                     </div>
                     @endforeach @endif
                 </div>
-            </div>
+            </div> -->
             @if(Auth::check())
             <hr class="mt-2" style="width: 100%" />
             <div class="col-md-8">
