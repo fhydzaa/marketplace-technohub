@@ -10,7 +10,12 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.css') }}">
+        <link
+            rel="stylesheet"
+            href="{{
+                asset('admin-assets/plugins/dropzone/min/dropzone.min.css')
+            }}"
+        />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <link
@@ -60,9 +65,14 @@
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <!-- Summernote -->
-        <script src="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
-        <script src="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
+        <script src="{{
+                asset('admin-assets/plugins/summernote/summernote-bs4.min.js')
+            }}"></script>
+        <script src="{{
+                asset('admin-assets/plugins/dropzone/min/dropzone.min.js')
+            }}"></script>
         <script type="text/javascript">
             $.ajaxSetup({
                 headers: {
@@ -75,6 +85,24 @@
                 $(".summernote").summernote({
                     height: 250,
                 });
+            });
+        </script>
+        <script>
+            document
+                .getElementById("logoutButton")
+                .addEventListener("click", function (event) {
+                    event.preventDefault();
+                    var confirmLogout = confirm(
+                        "Apakah Anda yakin ingin keluar?"
+                    );
+                    if (confirmLogout) {
+                        window.location.href = this.href;
+                    }
+                });
+        </script>
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
             });
         </script>
         @yield('customJs')
