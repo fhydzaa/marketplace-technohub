@@ -17,25 +17,25 @@ class ProductController extends Controller
     {
         $product = Product::latest('id')->with('product_image');
 
-        if(!empty($request->get('search'))){
+        if (!empty($request->get('search'))) {
             $search = $request->get('search');
-            $product = $product->where(function($query) use ($search) {
+            $product = $product->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
-                      ->orWhere('id', 'like', '%' . $search . '%')
-                      ->orWhere('category', 'like', '%' . $search . '%');
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->orWhere('category', 'like', '%' . $search . '%');
             });
         }
 
         // if(!empty($request->get('search'))){
         //     $product = $product->where('title','like','%'.$request->get('search').'%');
         // } 
-        
 
 
-        $product = $product->orderBy('id','DESC');
+
+        $product = $product->orderBy('id', 'DESC');
 
         $product = $product->paginate(6);
-                
+
         $data['product'] = $product;
         // dd($data);
         // exit();
@@ -113,10 +113,61 @@ class ProductController extends Controller
                     $image->save($destSmallPath);
                 }
             }
-
+            $request->session()->flash('success', 'Product berhasil ditambahkan');
             return response()->json([
                 'status' => true,
                 'success' => 'Product added'
+            ]);
+        } else {
+            $request->session()->flash('error', 'Product gagal ditambahkan');
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+    }
+
+    public function edit($id, Request $request)
+    {
+        $product = Product::find($id);
+        if (empty($product)) {
+            return redirect()->route('product.index')->with('error', 'produk tidak ditemukan');
+        }
+        $productImages = ProductImage::where('product_id', $product->id)->get();
+        $data['product'] = $product;
+        $data['productImages'] = $productImages;
+        return view('admin.product.edit', $data);
+    }
+
+    public function update($id, Request $request)
+    {
+        $product = Product::find($id);
+
+        // dd($request->image_array);
+        // exit();
+        $rules = [
+            'title' => 'required',
+            'slug' => 'required',
+            'price' => 'required|numeric',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->passes()) {
+            $product->title = $request->title;
+            $product->slug = $request->slug;
+            $product->category = $request->category;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->qty = $request->qty;
+            $product->status = $request->status;
+            $product->save();
+
+            $request->session()->flash('success', 'Product berhasil diupdate');
+
+            return response()->json([
+                'status' => true,
+                'success' => 'Product berhasil diupdate'
             ]);
         } else {
             return response()->json([
@@ -125,4 +176,90 @@ class ProductController extends Controller
             ]);
         }
     }
+    public function destroy($id, Request $request)
+    {
+        $product = Product::find($id);
+
+        if (empty($product)) {
+            $request->session()->flash('error', 'Produk tidak ada');
+            return response()->json([
+                'status' => false,
+                'notFound' => true
+            ]);
+        }
+
+        $productImages = ProductImage::where('product_id', $id)->get();
+
+        if (!empty($productImages)) {
+            foreach ($productImages as $productImage) {
+                // Delete small image
+                unlink(public_path('uploads/product/small/' . $productImage->image));
+                // Delete large image
+                unlink(public_path('uploads/product/large/' . $productImage->image));
+            }
+
+            ProductImage::where('product_id', $id)->delete();
+        }
+
+        $product->delete();
+
+        $request->session()->flash('success', 'Produk berhasil dihapus');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Produk berhasil dihapus'
+        ]);
+    }
+    public function removeImage(Request $request)
+    {
+        $imageId = $request->input('image_id');
+
+        // Retrieve the image details from the database using the image id
+        // dd($imageId);
+        // exit();
+        $productImage = ProductImage::find($imageId);
+        if (!empty($productImage)) {
+            // Delete small image
+            unlink(public_path('uploads/product/small/' . $productImage->image));
+            // Delete large image
+            unlink(public_path('uploads/product/large/' . $productImage->image));
+
+            // Delete the record from the database
+            $productImage->delete();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    // public function removeImage($id, Request $request)
+    // {
+    //     $product = Product::find($id);
+
+    //     if (empty($product)) {
+    //         $request->session()->flash('error', 'Produk tidak ada');
+    //         return response()->json([
+    //             'status' => false,
+    //             'notFound' => true
+    //         ]);
+    //     }
+
+
+    //     // Retrieve the image details from the database using the image id
+    //     $productImages = ProductImage::where('product_id', $id)->get();
+
+    //     if (!empty($productImages)) {
+    //         foreach ($productImages as $productImage) {
+    //             // Delete small image
+    //             unlink(public_path('uploads/product/small/' . $productImage->image));
+    //             // Delete large image
+    //             unlink(public_path('uploads/product/large/' . $productImage->image));
+    //         }
+
+    //         ProductImage::where('product_id', $id)->delete();
+    //     }
+
+    //     return response()->json(['success' => false]);
+    // }
 }

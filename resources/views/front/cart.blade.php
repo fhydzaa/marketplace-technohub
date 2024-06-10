@@ -1,8 +1,12 @@
 @extends('front.layouts.app') @section('content') @if(count($cartContent) > 0)
 <div class="container-fluid">
     @if (Session::has('success'))
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{Session::get('success')}}
+    <div
+        id="successAlert"
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('success') }}
         <button
             type="button"
             class="btn-close"
@@ -11,8 +15,12 @@
         ></button>
     </div>
     @endif @if (Session::has('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{Session::get('error')}}
+    <div
+        id="errorAlert"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('error') }}
         <button
             type="button"
             class="btn-close"
@@ -90,7 +98,7 @@
             </div>
             @endforeach
         </div>
-        <div class="col-md-3 mt-4" >
+        <div class="col-md-3 mt-4">
             <div class="card cart-summery">
                 <div class="sub-title">
                     <h2 class="bg-white">Total</h2>
@@ -98,7 +106,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-2">
                         <div>Subtotal</div>
-                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}</div>
+                        <div>
+                            Rp
+                            {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between pb-2">
                         <div>Shipping</div>
@@ -106,7 +117,10 @@
                     </div>
                     <div class="d-flex justify-content-between summery-end">
                         <div>Total</div>
-                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}    </div>
+                        <div>
+                            Rp
+                            {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
+                        </div>
                     </div>
                     <div class="pt-5">
                         <a href="#" class="btn-dark btn btn-block w-100"
@@ -148,7 +162,7 @@
                 var newQty = qtyElement.val();
                 updateCart(rowId, newQty);
             }
-            if ((qtyValue == 1)) {
+            if (qtyValue == 1) {
                 qtyElement.val(qtyValue - 1);
 
                 var rowId = $(this).data("id");
@@ -194,5 +208,21 @@
             });
         }
     });
+</script>
+
+<script>
+    // Delay closing success alert
+    if (document.getElementById("successAlert")) {
+        setTimeout(function () {
+            $("#successAlert").alert("close");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+
+    // Delay closing error alert
+    if (document.getElementById("errorAlert")) {
+        setTimeout(function () {
+            $("#errorAlert").alert("close");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
 </script>
 @endsection

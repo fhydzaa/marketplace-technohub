@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\AdminLoginController;
+use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\tempImagesController;
 
 /*
@@ -32,27 +33,27 @@ use App\Http\Controllers\admin\tempImagesController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-    Route::get('/', [FrontController::class, 'index'])->name('front.home');
-    Route::get('/product', [ShopController::class, 'index'])->name('front.product');
-    Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
-    Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
+Route::get('/', [FrontController::class, 'index'])->name('front.home');
+Route::get('/product', [ShopController::class, 'index'])->name('front.product');
+Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
+Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
 
-    Route::group(['middleware' => 'guest'], function () {
-        Route::get('/register', [AuthController::class, 'register'])->name('account.register');
-        Route::post('/process-register', [AuthController::class, 'processRegister'])->name('account.processRegister');
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [AuthController::class, 'register'])->name('account.register');
+    Route::post('/process-register', [AuthController::class, 'processRegister'])->name('account.processRegister');
 
-        Route::get('/login', [AuthController::class, 'login'])->name('account.login');
-        Route::post('/login', [AuthController::class, 'authenticate'])->name('account.authenticate');
-    });
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/logout', [AuthController::class, 'logout'])->name('account.logout');
-        Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
-        Route::get('/profile', [AuthController::class, 'profile'])->name('account.profile');
-        Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
-        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('front.addToCart');
-        Route::post('/update-cart', [CartController::class, 'updateCart'])->name('front.updateCart');
-        Route::post('/delete-cart', [CartController::class, 'deleteCart'])->name('front.deleteCart.cart');
-    });
+    Route::get('/login', [AuthController::class, 'login'])->name('account.login');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('account.authenticate');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('account.logout');
+    Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('account.profile');
+    Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('front.addToCart');
+    Route::post('/update-cart', [CartController::class, 'updateCart'])->name('front.updateCart');
+    Route::post('/delete-cart', [CartController::class, 'deleteCart'])->name('front.deleteCart.cart');
+});
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -71,10 +72,16 @@ Route::group(['prefix' => 'admin'], function () {
 
         //temp-images.create
         Route::post('/upload-temp-images', [tempImagesController::class, 'create'])->name('temp-images.create');
+
         //Product Routes
         Route::get('/product/create', [ProductController::class, 'create'])->name('product.buat');
         Route::post('/product', [ProductController::class, 'store'])->name('product.store');
+        Route::post('/product-image/update', [ProductImageController::class, 'update'])->name('productImage.update');
+        Route::get('/product-page/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('/product-page/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::get('/product-page', [ProductController::class, 'index'])->name('product.page');
+        Route::delete('/product-page/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::post('/remove-image', [ProductController::class, 'removeImage'])->name('product.removeImage');
 
 
         Route::get('/getSlug', function (Request $request) {
