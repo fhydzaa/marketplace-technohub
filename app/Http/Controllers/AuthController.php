@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +25,7 @@ class AuthController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3',
+            'name' => 'required|min:5',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:5|confirmed'
         ]);
@@ -52,7 +53,7 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-
+        $remember = $request->get('remember', false);
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
@@ -73,7 +74,15 @@ class AuthController extends Controller
                 // // dd($userName);
                 // // exit();
                 // $data['user'] =$userFromDatabase;
-                return redirect()->route('front.home');
+                $authenticatedUser = Auth::user();
+                $userDetails = UserDetails::where('user_id', $authenticatedUser->id)->first();
+                if ($userDetails) {
+                    // Pengguna lama: Redirect ke front.home
+                    return redirect()->route('front.home');
+                } else {
+                    // Pengguna baru: Redirect ke account.profile
+                    return redirect()->route('account.profile');
+                }
                 // return view('front.home');
             } else {
                 session()->flash('error', 'Login gagal, cek email dan password');
@@ -88,7 +97,20 @@ class AuthController extends Controller
 
     public function profile(){
         $user = session('user', Auth::user());
-        return view('front.account.profile', ['user' => $user]);
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
+        return view('front.account.profile',$data, ['user' => $user]);
+    }
+
+    public function profileEdit(){
+        $user = session('user', Auth::user());
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
+        // dd($data);
+        // exit();
+        return view('front.account.profileEdit',$data, ['user' => $user]);
     }
 
     public function logout(){

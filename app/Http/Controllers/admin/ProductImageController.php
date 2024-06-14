@@ -43,7 +43,7 @@ class ProductImageController extends Controller
         // Proses gambar ukuran kecil
         $destSmallPath = public_path() . '/uploads/product/small/' . $imageName;
         $image = $manager->read($sourcePath);
-        $image->scale(300, 275);
+        $image->scale(300, 300);
         $image->save($destSmallPath);
 
         return response()->json([

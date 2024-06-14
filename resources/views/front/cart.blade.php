@@ -46,16 +46,14 @@
                         src="{{ asset('uploads/product/small/'.$item->options->product_image->image) }}"
                         class="card-img-top"
                         alt="Product"
-                        width="100%"
-                        height="200px"
+                        style="width: 200px; height: 200px; object-fit: cover"
                     />
                     @else
                     <img
                         src="{{ asset('front-assets/img/product.png') }}"
                         class="card-img-top"
                         alt="Product"
-                        width="100%"
-                        height="200px"
+                        style="width: 200px; height: 200px; object-fit: cover"
                     />
                     @endif
                 </div>

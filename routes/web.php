@@ -15,6 +15,8 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\tempImagesController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UserDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,10 +51,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('account.logout');
     Route::get('/cart', [CartController::class, 'cart'])->name('front.cart');
     Route::get('/profile', [AuthController::class, 'profile'])->name('account.profile');
+    Route::post('/profileadd', [UserDetailsController::class, 'store'])->name('account.profileAdd');
+    Route::get('/profile/{user}/edit', [AuthController::class, 'profileEdit'])->name('account.profileEdit');
+    Route::put('/profile/{user}', [UserDetailsController::class, 'update'])->name('account.profileUpdate');
     Route::get('/product/{slug}/review', [ShopController::class, 'review'])->name('front.review');
     Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('front.addToCart');
     Route::post('/update-cart', [CartController::class, 'updateCart'])->name('front.updateCart');
     Route::post('/delete-cart', [CartController::class, 'deleteCart'])->name('front.deleteCart.cart');
+
+     //transaksi 
+     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('front.transaksi');
 });
 
 
@@ -83,6 +91,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/product-page/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
         Route::post('/remove-image', [ProductController::class, 'removeImage'])->name('product.removeImage');
 
+       
 
         Route::get('/getSlug', function (Request $request) {
             $slug = '';

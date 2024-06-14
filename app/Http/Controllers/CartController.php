@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\UserDetails;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
@@ -48,8 +49,6 @@ class CartController extends Controller
                 $status = false;
                 $massege = $product->title . ' sudah ada di keranjang';
             }
-            
-
         } else {
             Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
             $status = true;
@@ -66,8 +65,11 @@ class CartController extends Controller
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
         $user = session('user', Auth::user());
-            //         dd($cartContent);
-            // exit();
+        //         dd($cartContent);
+        // exit();
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
         return view('front.cart', $data, ['user' => $user]);
     }
 
@@ -86,7 +88,7 @@ class CartController extends Controller
             session()->flash('success', $message);
             $status = true;
         } else {
-            $message = 'Stok item hanya (' . $qty-1 . ')';
+            $message = 'Stok item hanya (' . $qty - 1 . ')';
             session()->flash('error', $message);
             $status = false;
         }

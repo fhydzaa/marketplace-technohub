@@ -25,7 +25,7 @@
                 <img
                     class="rounded-circle"
                     id="previewImage"
-                    src="{{ asset('front-assets/img/avatar5.png') }}"
+                    src="{{ $userdetails->first()->image }}"
                     width="200px"
                     height="200px"
                     style="border: 2px solid black"
@@ -44,31 +44,51 @@
         </div>
         <br />
         <br />
-        <h2 class="fw-bold">{{ $user->name }}</h2>
-        <h5 class="mb-4">{{ $user->email }}</h5>
         <form
-            action="{{ route('account.profileAdd') }}"
+            action="{{ route('account.profileUpdate', $user->id) }}"
             method="POST"
             class="d-flex flex-column gap-4"
         >
             @csrf
+            @method('PUT')
+            @if ($userdetails->isNotEmpty())
             <input type="hidden" name="user_id" value="{{ $user->id }}" />
             <input type="hidden" id="base64Image" name="base64Image" />
             <div class="row">
-                <label class="col-5" for="gender">Jenis Kelamin</label>
-                <select class="col-7 rounded-4" id="gender" name="gender">
-                    <option value="Laki - Laki">Laki - Laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
+                <label class="col-5" for="name">Nama</label>
+                <input
+                    class="col-7 rounded-4"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ $user->name }}"
+                />
             </div>
             <div class="row">
+                <label class="col-5" for="email">Email</label>
+                <input
+                    class="col-7 rounded-4"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value="{{ $user->email }}"
+                />
+            </div>
+            <div class="row">
+                <label class="col-5" for="gender">Jenis Kelamin</label>
+                <select class="col-7 rounded-4" id="gender" name="gender">
+                    <option value="Laki - Laki" {{ $userdetails->first()->gender == 'Laki - Laki' ? 'selected' : '' }}>Laki - Laki</option>
+                    <option value="Perempuan" {{ $userdetails->first()->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                </select>
+            </div>            
+            <div  class="row">
                 <label class="col-5" for="no_telephone">No-Telepon</label>
                 <input
                     class="col-7 rounded-4"
                     type="text"
                     id="no_telephone"
                     name="no_telephone"
-                    placeholder="09876543"
+                    value="{{ $userdetails->first()->no_telephone }}"
                 />
             </div>
             <div class="d-flex justify-content-center">
@@ -81,6 +101,7 @@
                     Simpan
                 </button>
             </div>
+        @endif  
         </form>
     </div>
 </div>
@@ -91,7 +112,7 @@
         var imagePreview = document.getElementById("imagePreview");
         var fileInput = document.getElementById("gambarInput");
         var base64ImageInput = document.getElementById("base64Image");
-        var defaultImageSrc = "{{ asset('front-assets/img/avatar5.png') }}"; // Path ke gambar default
+        var defaultImageSrc = "{{ $userdetails->first()->image }}"; // Path ke gambar default
 
         uploadButton.addEventListener("click", function () {
             fileInput.click();

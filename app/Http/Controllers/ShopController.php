@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\productRating;
+use App\Models\UserDetails;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,10 @@ class ShopController extends Controller
 
         $data['product'] =$product;
         $user = session('user', Auth::user());
+
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
 
         return view('front.shop', $data,['user' => $user]);
     }
@@ -44,7 +49,9 @@ class ShopController extends Controller
             $avgRating = number_format(($product->product_ratings_sum_rating/$product->product_ratings_count),2);
             $avgRatingPer = ($avgRating*100)/5;
         }
-
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
         $data['avgRating'] = $avgRating;
         $data['avgRatingPer'] = $avgRatingPer;
         $data['product'] = $product;

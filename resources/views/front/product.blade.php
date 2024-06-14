@@ -13,9 +13,9 @@
                     @foreach($product->product_image as $key => $productImage)
                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                         <img
-                            class="w-100 h-100"
                             src="{{ asset('uploads/product/large/'.$productImage->image) }}"
                             alt="Image"
+                            style="width: 700px; height: 500px; object-fit: cover"
                         />
                     </div>
                     @endforeach @endif
