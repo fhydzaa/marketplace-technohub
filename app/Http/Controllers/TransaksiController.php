@@ -16,4 +16,6 @@ class TransaksiController extends Controller
         $data['userdetails'] = $userdetails;
         return view('front.transaksi', $data, ['user' => $user]);
     }
+
+    
 }
