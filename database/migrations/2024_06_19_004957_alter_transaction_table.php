@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->string('image')-> default(NULL);
-            $table->integer('status')-> default(1);
-            $table->timestamps();
+        Schema::table('transaction', function (Blueprint $table) {
+            $table->integer('total_price')->after('sanp_token');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('transaction', function (Blueprint $table) {
+            $table->dropColumn('total_price');
+        });
     }
 };

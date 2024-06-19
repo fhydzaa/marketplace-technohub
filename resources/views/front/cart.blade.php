@@ -34,11 +34,14 @@
         <div class="col-md-8">
             @foreach($cartContent as $item)
             <div
-                class="mt-4 container d-flex flex-row"
+                class="mt-4 container d-flex flex-row product-item"
                 style="
                     border-top: 1px solid black;
                     border-bottom: 1px solid black;
                 "
+                data-id="{{ $item->id }}"
+                data-price="{{ $item->price }}"
+                data-qty="{{ $item->qty }}"
             >
                 <div class="py-2">
                     @if (!empty($item->options->product_image->image))
@@ -115,13 +118,16 @@
                     </div>
                     <div class="d-flex justify-content-between summery-end">
                         <div>Total</div>
-                        <div>
+                        <div id="cart-subtotal" data-subtotal="{{ Cart::subtotal(0,0,'') }}">
                             Rp
                             {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
                         </div>
                     </div>
                     <div class="pt-5">
-                        <a href="#" class="btn-dark btn btn-block w-100"
+                        <a
+                            href="#"
+                            id="pay-button"
+                            class="btn-dark btn btn-block w-100"
                             >Proceed to Checkout</a
                         >
                     </div>
@@ -136,6 +142,12 @@
 </div>
 @endif @endsection @section('customJs')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="	
+    SB-Mid-client-3QtQY0HBxub_GCf3
+    "
+></script>
 <script>
     $(document).ready(function () {
         $(".add").click(function () {
@@ -222,5 +234,53 @@
             $("#errorAlert").alert("close");
         }, 2000); // 2000 milliseconds = 2 seconds
     }
+</script>
+
+<script type="text/javascript">
+        document.getElementById('pay-button').onclick = function() {
+        let products = [];
+
+        // Mengambil semua elemen dengan class 'product-item'
+        let productItems = document.querySelectorAll('.product-item');
+
+        // Iterasi melalui setiap elemen untuk mendapatkan ID dan harga produk
+        productItems.forEach(function(item) {
+            let productId = item.getAttribute('data-id');
+            let price = item.getAttribute('data-price');
+            let qty = item.getAttribute('data-qty');
+
+            // Tambahkan produk ke array
+            products.push({
+                id: productId,
+                price: price,
+                qty: qty
+            });
+        });
+
+        let subtotalElement = document.getElementById('cart-subtotal');
+        let subtotal = subtotalElement.getAttribute('data-subtotal');
+
+        // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
+        $.ajax({
+            url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                products: products, // Mengirimkan array produk
+                subtotal : subtotal
+            },
+            success: function(response) {
+                if (response.status) {
+                    window.location.href = "{{ route('front.transaksi') }}";
+                } else {
+                    alert('Gagal memproses transaksi.');
+                }
+            },
+            error: function(error) {
+                alert('Terjadi kesalahan saat memproses transaksi.');
+                console.error(error);
+            }
+        });
+    };
 </script>
 @endsection

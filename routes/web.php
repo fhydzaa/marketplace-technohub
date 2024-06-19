@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\tempImagesController;
+use App\Http\Controllers\admin\TransaksiController as AdminTransaksiController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserDetailsController;
 
@@ -39,6 +41,7 @@ Route::get('/', [FrontController::class, 'index'])->name('front.home');
 Route::get('/product', [ShopController::class, 'index'])->name('front.product');
 Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
 Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
+Route::get('/about', [AboutController::class, 'index'])->name('front.about');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [AuthController::class, 'register'])->name('account.register');
@@ -61,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 
      //transaksi 
      Route::get('/transaksi', [TransaksiController::class, 'index'])->name('front.transaksi');
+     Route::post('/transaksi/process', [TransaksiController::class, 'process'])->name('front.transaksiProcess');
 });
 
 
@@ -90,7 +94,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/product-page', [ProductController::class, 'index'])->name('product.page');
         Route::delete('/product-page/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
         Route::post('/remove-image', [ProductController::class, 'removeImage'])->name('product.removeImage');
-
+        Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('admin.transaksi');
        
 
         Route::get('/getSlug', function (Request $request) {

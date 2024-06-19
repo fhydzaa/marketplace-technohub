@@ -55,6 +55,11 @@ class CartController extends Controller
             $massege = $product->title . ' ditambahkan ke keranjang';
         }
 
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
+        }
+
         return response()->json([
             'status' => $status,
             'message' => $massege,
@@ -62,15 +67,21 @@ class CartController extends Controller
     }
     public function cart()
     {
+        if (Auth::check()) {
+            Cart::restore(Auth::user()->name);
+        }
+
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
-        $user = session('user', Auth::user());
         //         dd($cartContent);
-        // exit();
+        // exit();  
         $user = Auth::user();
         $userdetails = UserDetails::where('user_id', $user->id)->get();
         $data['userdetails'] = $userdetails;
-        return view('front.cart', $data, ['user' => $user]);
+        $clientKey = config('midtrans.clientkey');
+        //         dd($clientKey   );
+        // exit();  
+        return view('front.cart', $data, ['user' => $user, 'clientKey' => $clientKey]);
     }
 
     public function updateCart(Request $request)
@@ -91,6 +102,11 @@ class CartController extends Controller
             $message = 'Stok item hanya (' . $qty - 1 . ')';
             session()->flash('error', $message);
             $status = false;
+        }
+
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
         }
 
         return response()->json([
@@ -115,6 +131,11 @@ class CartController extends Controller
         Cart::remove($request->rowId);
         $message = 'Item dihapus dari keranjang';
         session()->flash('error', $message);
+
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
+        }
 
         return response()->json([
             'status' => true,
