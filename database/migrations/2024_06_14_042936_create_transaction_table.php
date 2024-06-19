@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi', function (Blueprint $table) {
+        Schema::create('transaction', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('product')->onDelete('cascade');
-            $table->integer('price');
             $table->enum('status',['pending','success']);
             $table->string('sanp_token');
             $table->timestamps();

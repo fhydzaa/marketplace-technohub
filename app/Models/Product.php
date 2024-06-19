@@ -18,4 +18,11 @@ class Product extends Model
     {
         return $this->hasMany(productRating::class);
     }
+    
+    public function users()
+    {
+        return $this->belongsToMany(Transaction::class, 'transaction_details', 'product_id', 'transaction_id')
+                    ->withPivot('qty')
+                    ->withTimestamps();
+    }
 }

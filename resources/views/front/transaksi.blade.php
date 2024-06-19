@@ -1,32 +1,5 @@
 @extends('front.layouts.app') @section('content')
-<div class="container d-flex align-items-center justify-content-center">
-    <form
-        class="d-flex flex-row justify-content-center align-items-center gap-4"
-    >
-        <div class="py-4" style="width: 500px">
-            <input
-                value="{{ Request::get('search') }}"
-                type="text"
-                class="form-control"
-                id="search"
-                name="search"
-                placeholder="Cari Produk "
-            />
-            <!-- <input
-                  value="{{ Request::get('search') }}"
-                  name="search"
-                  id="search"
-                  type="text"
-                  placeholder="Cari Produk"
-              /> -->
-        </div>
-        <div class="py-4">
-            <button type="submit" class="btn btn-primary rounded-4 px-4">
-                Submit
-            </button>
-        </div>
-    </form>
-</div>
+<br><br>
 <div class="container bg-light h-100 mb-3 rounded-4">
     @if (Session::has('success'))
     <div
@@ -61,14 +34,48 @@
         <thead>
             <tr>
                 <th scope="col" class="text-start">Id</th>
-                <th scope="col" class="text-start">Produk</th>
-                <th scope="col" class="text-start">Lisensi</th>
-                <th scope="col" class="text-start">Harga</th>
+                <th scope="col" class="text-start">Status</th>
                 <th scope="col" class="text-start">Tanggal</th>
                 <th scope="col" class="text-start">Total Harga</th>
+                <th scope="col">Aksi</th>
             </tr>
         </thead>
-        
+        <tbody>
+            @if($transaction->isNotEmpty()) @foreach ($transaction as $trans)
+            <tr>
+                <th class="align-middle text-start" scope="row">
+                    {{ $trans->id }}
+                </th>
+                <td class="align-middle text-start">{{ $trans->status }}</td>
+                <td class="align-middle text-start">{{ $trans->created_at }}</td>
+                <td class="align-middle text-start">
+                    Rp {{ number_format($trans->total_price, 0, ',', '.') }}
+                </td>
+                <td class="align-middle">
+                    <div
+                        class="d-flex justify-content-center align-items-center gap-3"
+                    >
+                        <a
+                            href="#"
+                            class="btn btn-danger rounded-4 px-"
+                        >
+                            Bayar
+                        </a>
+                        <a
+                            ref="#"
+                            class="btn btn-success rounded-4 px-"
+                        >
+                            Detail
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            @endforeach @else
+            <tr>
+                <td colspan="6">Tidak ada transaksi</td>
+            </tr>
+            @endif
+        </tbody>
     </table>
 </div>
 

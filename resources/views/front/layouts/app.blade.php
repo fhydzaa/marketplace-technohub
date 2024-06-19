@@ -13,9 +13,9 @@
         />
         <link rel="stylesheet" href="{{ asset('front-assets/style.css') }}" />
         <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-        />
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
     </head>
     <body>
@@ -51,7 +51,7 @@
                             >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="{{ route('front.about') }}">About</a>
                         </li>
                     </ul>
                 </div>
@@ -95,7 +95,7 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('account.profileEdit', $user->id) }}"
-                                    ><i class="fas fa-user-cog mr-2"></i>My
+                                    ><i class="fas fa-user-cog mr-3"></i>My
                                     Profile</a
                                 >
                             </li>
@@ -103,7 +103,7 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('front.cart') }}"
-                                    ><i class="fas fa-user-cog mr-2"></i
+                                    ><i class="fas fa-shopping-cart mr-3"></i
                                     >Keranjang</a
                                 >
                             </li>
@@ -111,13 +111,13 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('front.transaksi') }}"
-                                    ><i class="fas fa-user-cog mr-2"></i
-                                    >Transaksi</a
+                                    ><i class="fas fa-money-bill-wave mr-2"></i>
+                                    Transaksi</a
                                 >
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#"
-                                    ><i class="fas fa-lock mr-2"></i>Ganti
+                                    ><i class="fas fa-lock mr-3"></i>Ganti
                                     Password</a
                                 >
                             </li>

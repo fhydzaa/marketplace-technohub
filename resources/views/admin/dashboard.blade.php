@@ -2,73 +2,122 @@
 
 @section('content')
 <!-- Content Header (Page header) -->
-<section class="content-header">					
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Dashboard</h1>
-            </div>
-            <div class="col-sm-6">
-                
-            </div>
-        </div>
-    </div>
-    <!-- /.container-fluid -->
-</section>
+
 <!-- Main content -->
+<br />
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>Total Orders</p>
+            <div class="col-lg-5 col-12 mb-4">
+                <div class="row gx-3">
+                    <div class="col-12 mb-4">
+                        <div class="small-box card text-center">
+                            <div class="inner">
+                                <h1>150</h1>
+                                <p>Total Orders</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
+                    <div class="col-12 mb-4">
+                        <div class="small-box card text-center">
+                            <div class="inner">
+                                <h1>50</h1>
+                                <p>Total Customers</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <div class="col-12">
+                        <div class="small-box card text-center">
+                            <div class="inner">
+                                <h1>$1000</h1>
+                                <p>Total Sale</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
+
+            <div class="col-lg-7 col-12 mb-4">
+                <div class="small-box card text-center" style="height: 100%">
                     <div class="inner">
-                        <h3>50</h3>
-                        <p>Total Customers</p>
+                        <h3>Extra Box</h3>
+                        <p>Additional Information</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="ion ion-star"></i>
                     </div>
-                    <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
-                    <div class="inner">
-                        <h3>$1000</h3>
-                        <p>Total Sale</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="javascript:void(0);" class="small-box-footer">&nbsp;</a>
                 </div>
             </div>
         </div>
-    </div>					
+
+        <div class="container bg-light h-100 mb-3 rounded-4">
+            <br />
+            <h4>Transaksi terbaru</h4>
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-start">Id</th>
+                        <th scope="col" class="text-start">User Name</th>
+                        <th scope="col" class="text-start">Status</th>
+                        <th scope="col" class="text-start">Tanggal</th>
+                        <th scope="col" class="text-start">Total Harga</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if($transaction->isNotEmpty())
+                        @foreach ($transaction as $trans)
+                            <tr>
+                                <th class="align-middle text-start" scope="row">
+                                    {{ $trans->id }}
+                                </th>
+                                <td class="align-middle text-start">
+                                    {{ $trans->user->name }}
+                                </td>
+                                <td class="align-middle text-start">
+                                    {{ $trans->status }}
+                                </td>
+                                <td class="align-middle text-start">
+                                    {{ $trans->created_at }}
+                                </td>
+                                <td class="align-middle text-start">
+                                    Rp {{ number_format($trans->total_price, 0, ',', '.') }}
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <a href="#" class="btn btn-success rounded-4 px-">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6">Tidak ada transaksi</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- /.card -->
 </section>
 <!-- /.content -->
 @endsection
 
-
-@section('custiomJs')
+@section('customJs')
 <script>
-    console.log("hello")
+    console.log("hello");
 </script>
-
 @endsection

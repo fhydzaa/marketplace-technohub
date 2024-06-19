@@ -81,7 +81,7 @@
             <li class="w-100 nav-item d-flex justify-content-center">
                 <a
                     class="w-100 d-flex align-items-center nav-link fs-5"
-                    href="#"
+                    href="{{ route('admin.transaksi') }}"
                 >
                     <div
                         class="col-4 d-flex align-items-center justify-content-center"
