@@ -68,7 +68,7 @@
     <table class="table text-center">
         <thead>
             <tr>
-                <th scope="col" class="text-start">Id</th>
+                <th scope="col" class="text-start">No Pesanan</th>
                 <th scope="col" class="text-start">User Name</th>
                 <th scope="col" class="text-start">Status</th>
                 <th scope="col" class="text-start">Tanggal</th>
@@ -79,9 +79,9 @@
         <tbody>
             @if($transaction->isNotEmpty()) @foreach ($transaction as $trans)
             <tr>
-                <th class="align-middle text-start" scope="row">
-                    {{ $trans->id }}
-                </th>
+                <td class="align-middle text-start" scope="row">
+                    {{ $trans->id_order }}
+                </td>
                 <td class="align-middle text-start">{{ $trans->user->name}}</td>
                 <td class="align-middle text-start">{{ $trans->status }}</td>
                 <td class="align-middle text-start">{{ $trans->created_at }}</td>
@@ -108,6 +108,9 @@
             @endif
         </tbody>
     </table>
+    <div class="pagination-container d-flex justify-content-center p-5">
+        {{ $transaction->links('pagination::bootstrap-4') }}
+    </div>
 </div>
 @endsection @section('customJs')
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->

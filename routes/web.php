@@ -65,6 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
      //transaksi 
      Route::get('/transaksi', [TransaksiController::class, 'index'])->name('front.transaksi');
      Route::post('/transaksi/process', [TransaksiController::class, 'process'])->name('front.transaksiProcess');
+     Route::post('/transaksi/pay', [TransaksiController::class, 'pay'])->name('front.pay');
+     Route::get('/transaksi/pay/{transaction}', [TransaksiController::class, 'status'])->name('transaction.pay');
 });
 
 

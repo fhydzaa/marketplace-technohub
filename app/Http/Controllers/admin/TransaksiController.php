@@ -24,7 +24,7 @@ class TransaksiController extends Controller
 
         $transaction = $transaction->orderBy('id', 'DESC');
 
-        $transaction = $transaction->get();
+        $transaction = $transaction->paginate(10);
 
         $data['transaction'] = $transaction;
         return view('admin.transaksi', $data);

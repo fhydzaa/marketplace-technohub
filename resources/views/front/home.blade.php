@@ -186,16 +186,6 @@
         @endforeach
     </div>
     @endforeach @endif
-
-    <div class="mt-5 container d-flex justify-content-end">
-        <a
-          href="{{ route('front.product') }}"
-            class="btn px-3 rounded-3"
-            style="background-color: #123159; color: white; font-weight: bold"
-        >
-            View All
-        </a>
-    </div>
 </section>
 
 <footer style="background-color: #123159" class="mt-5 d-flex flex-column gap-3">

@@ -116,12 +116,6 @@
                                 >
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#"
-                                    ><i class="fas fa-lock mr-3"></i>Ganti
-                                    Password</a
-                                >
-                            </li>
-                            <li>
                                 <a
                                     class="dropdown-item text-danger"
                                     href="{{ route('account.logout') }}"

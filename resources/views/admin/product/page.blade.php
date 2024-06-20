@@ -67,7 +67,6 @@
     <table class="table text-center">
         <thead>
             <tr>
-                <th scope="col" class="text-start">Id</th>
                 <th scope="col" class="text-start">Gambar</th>
                 <th scope="col" class="text-start">Product</th>
                 <th scope="col" class="text-start">Jenis</th>
@@ -79,9 +78,6 @@
             @if($product->isNotEmpty()) @foreach ($product as $prod) @php
             $productImage = $prod->product_image->first(); @endphp
             <tr>
-                <th class="align-middle text-start" scope="row">
-                    {{ $prod->id }}
-                </th>
                 <td class="text-start">
                     @if (!empty($productImage->image))
                     <img
