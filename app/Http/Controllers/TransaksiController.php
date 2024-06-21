@@ -46,21 +46,28 @@ class TransaksiController extends Controller
             Cart::store(Auth::user()->name);
         }
 
-        foreach ($request->products as $productData) {
-            $product = Product::findOrFail($productData['id']);
-            
-            if (!$product) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Product not found'
-                ], 404); // Atau kode status yang sesuai
+        if($request->products){
+            foreach ($request->products as $productData) {
+                $product = Product::findOrFail($productData['id']);
+                
+                if (!$product) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Product not found'
+                    ], 404); // Atau kode status yang sesuai
+                }
+                // Simpan relasi many-to-many
+                $transaction->product()->attach($product, [
+                    'qty' => $productData['qty']
+                ]);
             }
-            // Simpan relasi many-to-many
+        } else {
+            $product = Product::findOrFail($request->productId);
             $transaction->product()->attach($product, [
-                'qty' => $productData['qty']
+                'qty' => $request->qty
             ]);
         }
-
+    
         return response()->json([
             'status' => true,
             'massege' => 'Silahkan bayar pesanan anda'

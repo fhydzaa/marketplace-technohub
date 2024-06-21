@@ -68,10 +68,9 @@
                     <tr>
                         <th scope="col" class="text-start">No Pesanan</th>
                         <th scope="col" class="text-start">User Name</th>
-                        <th scope="col" class="text-start">Status</th>
                         <th scope="col" class="text-start">Tanggal</th>
                         <th scope="col" class="text-start">Total Harga</th>
-                        <th scope="col">Aksi</th>
+                        <th scope="col" class="text-start">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,14 +79,10 @@
                             <tr>
                                 <td class="align-middle text-start" scope="row">{{ $trans->id_order }}</td>
                                 <td class="align-middle text-start">{{ $trans->user->name }}</td>
-                                <td class="align-middle text-start">{{ $trans->status }}</td>
                                 <td class="align-middle text-start">{{ $trans->created_at }}</td>
                                 <td class="align-middle text-start">Rp {{ number_format($trans->total_price, 0, ',', '.') }}</td>
-                                <td class="align-middle">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <a href="#" class="btn btn-success rounded-4 px-">Detail</a>
-                                    </div>
-                                </td>
+                                <td class="align-middle text-start">{{ $trans->status }}</td>
+
                             </tr>
                         @endforeach
                     @else

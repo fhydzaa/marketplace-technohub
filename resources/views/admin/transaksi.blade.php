@@ -28,7 +28,7 @@
     </form>
 </div>
 <div class="container bg-light h-100 mb-3 rounded-4">
-    <br>
+    <br />
     <!-- <div class="py-3">
         <a
             href="{{ route('product.buat') }}"
@@ -70,9 +70,9 @@
             <tr>
                 <th scope="col" class="text-start">No Pesanan</th>
                 <th scope="col" class="text-start">User Name</th>
-                <th scope="col" class="text-start">Status</th>
                 <th scope="col" class="text-start">Tanggal</th>
                 <th scope="col" class="text-start">Total Harga</th>
+                <th scope="col" class="text-start">Status</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
@@ -83,21 +83,55 @@
                     {{ $trans->id_order }}
                 </td>
                 <td class="align-middle text-start">{{ $trans->user->name}}</td>
-                <td class="align-middle text-start">{{ $trans->status }}</td>
-                <td class="align-middle text-start">{{ $trans->created_at }}</td>
+                <td class="align-middle text-start">
+                    {{ $trans->created_at }}
+                </td>
                 <td class="align-middle text-start">
                     Rp {{ number_format($trans->total_price, 0, ',', '.') }}
                 </td>
-                <td class="align-middle">
-                    <div
-                        class="d-flex justify-content-center align-items-center gap-3"
-                    >
-                        <a
-                            ref="#"
-                            class="btn btn-success rounded-4 px-"
+                <td class="align-middle text-start">{{ $trans->status }}</td>
+                <td>
+                    <div>
+                        <button
+                            class="btn btn-success rounded-4 px- detail-button"
+                            data-id="{{ $trans->id }}"
                         >
-                            Detail
-                        </a>
+                            <i
+                                class="bi bi-caret-down-fill"
+                                id="caret-{{ $trans->id }}"
+                            ></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr
+                class="table-light detail-row"
+                id="detail-{{ $trans->id }}"
+                style="display: none"
+            >
+                <td colspan="6">
+                    <div class="p-3">
+                        <table class="table mt-3">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($trans->product as $prod)
+                                <tr>
+                                    <td>{{ $prod->title }}</td>
+                                    <td>{{ $prod->pivot->qty }}</td>
+                                    <td>
+                                        Rp
+                                        {{ number_format($prod->price, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </td>
             </tr>
@@ -113,7 +147,24 @@
     </div>
 </div>
 @endsection @section('customJs')
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script>
+    $(document).ready(function () {
+        $(".detail-button").click(function () {
+            var transId = $(this).data("id");
+            $("#detail-" + transId).toggle();
+            var caret = $("#caret-" + transId);
+            if (caret.hasClass("bi-caret-down-fill")) {
+                caret
+                    .removeClass("bi-caret-down-fill")
+                    .addClass("bi-caret-up-fill");
+            } else {
+                caret
+                    .removeClass("bi-caret-up-fill")
+                    .addClass("bi-caret-down-fill");
+            }
+        });
+    });
+</script>
 <script>
     var csrfToken = "{{ csrf_token() }}";
 
@@ -147,16 +198,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Delay closing success alert
-    if (document.getElementById('successAlert')) {
-        setTimeout(function() {
-            $('#successAlert').alert('close');
+    if (document.getElementById("successAlert")) {
+        setTimeout(function () {
+            $("#successAlert").alert("close");
         }, 2000); // 2000 milliseconds = 2 seconds
     }
 
     // Delay closing error alert
-    if (document.getElementById('errorAlert')) {
-        setTimeout(function() {
-            $('#errorAlert').alert('close');
+    if (document.getElementById("errorAlert")) {
+        setTimeout(function () {
+            $("#errorAlert").alert("close");
         }, 2000); // 2000 milliseconds = 2 seconds
     }
 </script>

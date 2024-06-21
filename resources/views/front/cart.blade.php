@@ -80,6 +80,7 @@
                             class="px-2 form-control qty-input"
                             style="width: 100px; height: 30px"
                             value="{{ $item->qty }}"
+                            readonly
                         />
                         <button
                             type="button"
@@ -90,6 +91,17 @@
                                 src="{{
                                     asset('front-assets/img/tambahh.png')
                                 }}"
+                                width="20px"
+                                height="20px"
+                            />
+                        </button>
+                        <button
+                            type="button"
+                            class="btn p-0 border-0 bg-transparent delete d-flex align-items-center"
+                            data-id="{{ $item->rowId }}"
+                        >
+                            <img
+                                src="{{ asset('front-assets/img/delete.png') }}"
                                 width="20px"
                                 height="20px"
                             />
@@ -118,7 +130,10 @@
                     </div>
                     <div class="d-flex justify-content-between summery-end">
                         <div>Total</div>
-                        <div id="cart-subtotal" data-subtotal="{{ Cart::subtotal(0,0,'') }}">
+                        <div
+                            id="cart-subtotal"
+                            data-subtotal="{{ Cart::subtotal(0,0,'') }}"
+                        >
                             Rp
                             {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
                         </div>
@@ -153,13 +168,11 @@
         $(".add").click(function () {
             var qtyElement = $(this).siblings(".qty-input");
             var qtyValue = parseInt(qtyElement.val());
-            if (qtyValue < 10) {
-                qtyElement.val(qtyValue + 1);
+            qtyElement.val(qtyValue + 1);
 
-                var rowId = $(this).data("id");
-                var newQty = qtyElement.val();
-                updateCart(rowId, newQty);
-            }
+            var rowId = $(this).data("id");
+            var newQty = qtyElement.val();
+            updateCart(rowId, newQty);
         });
 
         $(".sub").click(function () {
@@ -179,6 +192,11 @@
                 var newQty = qtyElement.val();
                 deleteCart(rowId);
             }
+        });
+
+        $(".delete").click(function () {
+            var rowId = $(this).data("id");
+            deleteCart(rowId);
         });
 
         function updateCart(rowId, qty) {
@@ -237,49 +255,49 @@
 </script>
 
 <script type="text/javascript">
-        document.getElementById('pay-button').onclick = function() {
+    document.getElementById("pay-button").onclick = function () {
         let products = [];
 
         // Mengambil semua elemen dengan class 'product-item'
-        let productItems = document.querySelectorAll('.product-item');
+        let productItems = document.querySelectorAll(".product-item");
 
         // Iterasi melalui setiap elemen untuk mendapatkan ID dan harga produk
-        productItems.forEach(function(item) {
-            let productId = item.getAttribute('data-id');
-            let price = item.getAttribute('data-price');
-            let qty = item.getAttribute('data-qty');
+        productItems.forEach(function (item) {
+            let productId = item.getAttribute("data-id");
+            let price = item.getAttribute("data-price");
+            let qty = item.getAttribute("data-qty");
 
             // Tambahkan produk ke array
             products.push({
                 id: productId,
                 price: price,
-                qty: qty
+                qty: qty,
             });
         });
 
-        let subtotalElement = document.getElementById('cart-subtotal');
-        let subtotal = subtotalElement.getAttribute('data-subtotal');
+        let subtotalElement = document.getElementById("cart-subtotal");
+        let subtotal = subtotalElement.getAttribute("data-subtotal");
 
         // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
         $.ajax({
             url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
-            method: 'POST',
+            method: "POST",
             data: {
-                _token: '{{ csrf_token() }}',
+                _token: "{{ csrf_token() }}",
                 products: products, // Mengirimkan array produk
-                subtotal : subtotal
+                subtotal: subtotal,
             },
-            success: function(response) {
+            success: function (response) {
                 if (response.status) {
                     window.location.href = "{{ route('front.transaksi') }}";
                 } else {
-                    alert('Gagal memproses transaksi.');
+                    alert("Gagal memproses transaksi.");
                 }
             },
-            error: function(error) {
-                alert('Terjadi kesalahan saat memproses transaksi.');
+            error: function (error) {
+                alert("Terjadi kesalahan saat memproses transaksi.");
                 console.error(error);
-            }
+            },
         });
     };
 </script>

@@ -29,51 +29,94 @@
         ></button>
     </div>
     @endif
-    <table class="table text-center">
-        <thead>
+    <table class="table text-center table-hover">
+        <thead class=class="table table-dark" style="background-color: #123159;">
             <tr>
                 <th scope="col" class="text-start">No Pesanan</th>
-                <th scope="col" class="text-start">Status</th>
                 <th scope="col" class="text-start">Tanggal</th>
                 <th scope="col" class="text-start">Total Harga</th>
+                <th scope="col" class="text-start">Status</th>
                 <th scope="col">Aksi</th>
+                <th scope="col">Detail</th>
             </tr>
         </thead>
         <tbody>
             @if($transaction->isNotEmpty()) @foreach ($transaction as $trans)
-            <tr>
+            <tr class="table-light">
                 <td class="align-middle text-start" scope="row">
                     {{ $trans->id_order }}
                 </td>
-                <td class="align-middle text-start">{{ $trans->status }}</td>
                 <td class="align-middle text-start">
                     {{ $trans->created_at }}
                 </td>
                 <td class="align-middle text-start">
                     Rp {{ number_format($trans->total_price, 0, ',', '.') }}
                 </td>
+                <td class="align-middle text-start">
+                    {{ $trans->status }}
+                </td>
                 <td class="align-middle">
                     <div
                         class="d-flex justify-content-center align-items-center gap-3"
                     >
                         @if($trans->status == 'pending')
-
                         <a
                             id="pay-button"
                             data-id="{{ $trans->id }}"
-                            class="btn btn-danger rounded-4 px-"
+                            class="btn btn-danger rounded-4"
                             href="javascript:void(0);"
                         >
                             Bayar
                         </a>
-                        <a ref="#" class="btn btn-success rounded-4 px-">
-                            Detail
-                        </a>
                         @else
-                        <a ref="#" class="btn btn-success rounded-4 px-">
-                            Detail
-                        </a>
+                        <span class="btn btn-secondary rounded-4 disabled">
+                            Sudah Bayar
+                        </span>
                         @endif
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button
+                            class="btn btn-success rounded-4 detail-button"
+                            data-id="{{ $trans->id }}"
+                        >
+                            <i
+                                class="bi bi-caret-down-fill"
+                                id="caret-{{ $trans->id }}"
+                            ></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr
+                class="table-light detail-row"
+                id="detail-{{ $trans->id }}"
+                style="display: none"
+            >
+                <td colspan="6">
+                    <div class="p-3">
+                        <table class="table mt-3">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($trans->product as $prod)
+                                <tr>
+                                    <td>{{ $prod->title }}</td>
+                                    <td>{{ $prod->pivot->qty }}</td>
+                                    <td>
+                                        Rp
+                                        {{ number_format($prod->price, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </td>
             </tr>
@@ -90,6 +133,44 @@
 </div>
 
 @endsection @section('customJs')
+<!-- <script>
+    document.querySelectorAll(".detail-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            const detailRow = document.getElementById(
+                "detail-" + this.dataset.id
+            );
+            if (detailRow.style.display === "none") {
+                detailRow.style.display = "table-row";
+                this.querySelector(".bi").classList.remove(
+                    "bi-caret-down-fill"
+                );
+                this.querySelector(".bi").classList.add("bi-caret-up-fill");
+            } else {
+                detailRow.style.display = "none";
+                this.querySelector(".bi").classList.remove("bi-caret-up-fill");
+                this.querySelector(".bi").classList.add("bi-caret-down-fill");
+            }
+        });
+    });
+</script> -->
+<script>
+    $(document).ready(function () {
+        $(".detail-button").click(function () {
+            var transId = $(this).data("id");
+            $("#detail-" + transId).toggle();
+            var caret = $("#caret-" + transId);
+            if (caret.hasClass("bi-caret-down-fill")) {
+                caret
+                    .removeClass("bi-caret-down-fill")
+                    .addClass("bi-caret-up-fill");
+            } else {
+                caret
+                    .removeClass("bi-caret-up-fill")
+                    .addClass("bi-caret-down-fill");
+            }
+        });
+    });
+</script>
 <script
     src="https://app.sandbox.midtrans.com/snap/snap.js"
     data-client-key="<?php config('midtrans.clientkey')?>"

@@ -86,28 +86,38 @@
         
             <form class="mb-4">
                 <p>Kuantitas</p>
-                <div class="d-flex flex-row gap-1 align-item-center">
-                    <img
-                        src="{{ asset('front-assets/img/kurang.png') }}"
-                        alt="kurang"
-                        width="40px"
-                        height="40px"
-                        style="cursor: pointer"
-                    />
+                <div class="d-flex flex-row gap-2 align-items-center mt-5">
+                    <button
+                        type="button"
+                        class="btn p-0 border-0 bg-transparent sub d-flex align-items-center"
+                        data-id="{{ $product->rowId }}"
+                    >
+                        <img
+                            src="{{ asset('front-assets/img/kurang.png') }}"
+                            width="40px"
+                            height="40px"
+                        />
+                    </button>
                     <input
                         type="text"
-                        id="tambahkurang"
-                        name="tambahkurang"
-                        class="text-center px-2"
-                        style="width: 100px"
+                        class="px-2 form-control qty-input"
+                        style="width: 100px; height: 40px"
+                        value="1"
+                        readonly
                     />
-                    <img
-                        src="{{ asset('front-assets/img/tambahh.png') }}"
-                        width="40px"
-                        height="40px"
-                        alt="tambah"
-                        style="cursor: pointer"
-                    />
+                    <button
+                        type="button"
+                        class="btn p-0 border-0 bg-transparent add d-flex align-items-center"
+                        data-id="{{ $product->rowId }}"
+                    >
+                        <img
+                            src="{{
+                                asset('front-assets/img/tambahh.png')
+                            }}"
+                            width="40px"
+                            height="40px"
+                        />
+                    </button>
                 </div>
                 <div class="container mt-5 d-flex flex-row gap-4">
                     @csrf
@@ -119,6 +129,9 @@
                         Masukkan Keranjang
                     </a>
                     <a
+                    href="javascript:void(0)"
+                    onclick="buynow({{ $product->id }}, {{ $product->price }});"
+                        
                         class="btn rounded-4"
                         style="background-color: darkcyan; color: white"
                     >
@@ -186,10 +199,13 @@
 @endsection @section('customJs')
 <script type="text/javascript">
     function addToCart(id) {
+        var qtyValue = $('.qty-input').val();
         $.ajax({
             url: '{{ route("front.addToCart") }}',
             type: "post",
-            data: { id: id },
+            data: { id: id,
+                qtyValue: qtyValue
+             },
             dataType: "json",
             success: function (response) {
                 if (response.status == true) {
@@ -208,5 +224,99 @@
             },
         });
     }
+
+    function buynow(id, price){
+            var qty= $('.qty-input').val();
+            let subtotal = price * qty;
+
+        // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
+            $.ajax({
+                url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    productId: id, // Mengirimkan array produk
+                    subtotal: subtotal,
+                    price: price,
+                    qty:qty
+
+                },
+                success: function (response) {
+                    if (response.status) {
+                        window.location.href = "{{ route('front.transaksi') }}";
+                    } else {
+                        alert("Gagal memproses transaksi.");
+                    }
+                },
+                error: function (error) {
+                    alert("Terjadi kesalahan saat memproses transaksi.");
+                    console.error(error);
+                },
+            });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $(".add").click(function () {
+            var qtyElement = $(this).siblings(".qty-input");
+            var qtyValue = parseInt(qtyElement.val());
+            if (qtyValue < 10) {
+                qtyElement.val(qtyValue + 1);
+
+                var rowId = $(this).data("id");
+                var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
+            }
+        });
+
+        $(".sub").click(function () {
+            var qtyElement = $(this).siblings(".qty-input");
+            var qtyValue = parseInt(qtyElement.val());
+            if (qtyValue > 1) {
+                qtyElement.val(qtyValue - 1);
+
+                var rowId = $(this).data("id");
+                var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
+            }
+        });
+
+        function updateCart(rowId, qty) {
+            $.ajax({
+                url: '{{ route("front.updateCart") }}',
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rowId: rowId,
+                    qty: qty,
+                },
+                dataType: "json",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Update cart failed:", error);
+                },
+            });
+        }
+
+        function deleteCart(rowId) {
+            $.ajax({
+                url: '{{ route("front.deleteCart.cart") }}',
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rowId: rowId,
+                },
+                dataType: "json",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Update cart failed:", error);
+                },
+            });
+        }
+    });
 </script>
 @endsection

@@ -41,18 +41,18 @@ class CartController extends Controller
             }
 
             if ($productAlreadyExist == false) {
-                Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
+                Cart::add($product->id, $product->title, $request->qtyValue, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
 
                 $status = true;
-                $massege = $product->title . ' ditambahkan ke keranjang';
+                $massege = $request->qtyValue .  ' item ' . $product->title . ' ditambahkan ke keranjang';
             } else {
                 $status = false;
-                $massege = $product->title . ' sudah ada di keranjang';
+                $massege = $product->title . ' sudah ada di keranjang' ;
             }
         } else {
-            Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
+            Cart::add($product->id, $product->title, $request->qtyValue, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
             $status = true;
-            $massege = $product->title . ' ditambahkan ke keranjang';
+            $massege = $request->qtyValue .  ' item ' . $product->title . ' ditambahkan ke keranjang';
         }
 
         // Store cart
