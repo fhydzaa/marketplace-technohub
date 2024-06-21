@@ -106,7 +106,7 @@
                             <p>
                                 Don’t have any account?
                                 <a
-                                    href="#"
+                                    href="{{ route('account.register') }}"
                                     class="text-decoration-none text-danger"
                                     >Daftar</a
                                 >
