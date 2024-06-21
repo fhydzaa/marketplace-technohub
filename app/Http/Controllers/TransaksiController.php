@@ -82,8 +82,8 @@ class TransaksiController extends Controller
 
         $transaction = Transaction::where('id', $request-> transactionId)->first();
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = "SB-Mid-server-fLRCa8dPfavwqJpXZxqETIKZ";
-        // \Midtrans\Config::$serverKey = "config('midtrans.serverkey')";
+        // \Midtrans\Config::$serverKey = "SB-Mid-server-fLRCa8dPfavwqJpXZxqETIKZ";
+        \Midtrans\Config::$serverKey = config('midtrans.serverkey');
         \Midtrans\Config::$isProduction = false; // Set to true for Production Environment
         \Midtrans\Config::$isSanitized = true; // Set sanitization on
         \Midtrans\Config::$is3ds = true; // Set 3DS transaction for credit card to true
