@@ -8,18 +8,29 @@
                 class="carousel slide"
                 data-bs-ride="carousel"
             >
-                <div class="carousel-inner bg-light">
-                    @if($product->product_image)
+            <div class="carousel-inner bg-light">
+                @if(count($product->product_image) > 0)
                     @foreach($product->product_image as $key => $productImage)
-                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img
+                                src="{{ asset('uploads/product/large/'.$productImage->image) }}"
+                                class="d-block w-100"
+                                alt="Product Image"
+                                style="width: 700px; height: 500px; object-fit: cover;"
+                            />
+                        </div>
+                    @endforeach 
+                @else
+                    <div class="carousel-item active">
                         <img
-                            src="{{ asset('uploads/product/large/'.$productImage->image) }}"
-                            alt="Image"
-                            style="width: 700px; height: 500px; object-fit: cover"
+                            src="{{ asset('front-assets/img/product.png') }}"
+                            class="d-block w-100"
+                            alt="Default Image"
+                            style="width: 700px; height: 500px; object-fit: cover;"
                         />
                     </div>
-                    @endforeach @endif
-                </div>
+                @endif
+            </div>
                 <a
                     class="carousel-control-prev"
                     href="#product-carousel"
@@ -83,7 +94,7 @@
             <h4>Rp {{ number_format($product->price, 0, ',', '.') }}</h4>
             <p>Stok: {{ $product->qty }}</p>
 
-        
+            @if($product->qty)
             <form class="mb-4">
                 <p>Kuantitas</p>
                 <div class="d-flex flex-row gap-2 align-items-center mt-5">
@@ -139,6 +150,12 @@
                     </a>
                 </div>
             </form>
+            @else
+            <div class="out-of-stock text-center p-5 my-5" style="border: 2px dashed red; border-radius: 10px; background-color: #f8d7da; color: #721c24;">
+                <h1 style="font-size: 2.5rem; font-weight: bold;">HABISS</h1>
+                <p style="font-size: 1.2rem;">Maaf, produk ini sedang tidak tersedia.</p>
+            </div>
+            @endif
             <div class="d-flex flex-column gap-3 mb-5">
                 <hr class="mt-2" style="width: 100%" />
                 <h4>Ulasan Produk</h4>

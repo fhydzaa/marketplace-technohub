@@ -30,7 +30,11 @@
     </div>
     @endif
     <table class="table text-center table-hover">
-        <thead class=class="table table-dark" style="background-color: #123159;">
+        <thead
+            class="class"
+            ="table table-dark"
+            style="background-color: #123159"
+        >
             <tr>
                 <th scope="col" class="text-start">No Pesanan</th>
                 <th scope="col" class="text-start">Tanggal</th>
@@ -101,6 +105,7 @@
                                 <tr>
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Quantity</th>
+                                    <th scope="col">License</th>
                                     <th scope="col">Price</th>
                                 </tr>
                             </thead>
@@ -109,6 +114,15 @@
                                 <tr>
                                     <td>{{ $prod->title }}</td>
                                     <td>{{ $prod->pivot->qty }}</td>
+                                    <td>
+                                        @if(isset($transactionLicenseMap[$prod->pivot->id]))
+                                            @foreach($transactionLicenseMap[$prod->pivot->id] as $trans_li)
+                                                {{ $trans_li->license }}<br>
+                                            @endforeach
+                                        @else
+                                            No license available
+                                        @endif
+                                    </td>
                                     <td>
                                         Rp
                                         {{ number_format($prod->price, 0, ',', '.') }}
@@ -213,7 +227,6 @@
                         },
                         onClose: function () {
                             // Handle jika pengguna menutup modal QRIS sebelum pembayaran selesai
-                            alert("Anda belum menyelesaikan pembayaran!");
                         },
                     });
                 } else {

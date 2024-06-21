@@ -6,23 +6,31 @@ use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\productLisense;
 use App\Models\Transaction;
+use App\Models\TransactionLisense;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $transaction = Transaction::where('user_id', $user->id);
+        $transactions = Transaction::where('user_id', $user->id)->orderBy('id', 'DESC')->paginate(10);
         $userdetails = UserDetails::where('user_id', $user->id)->get();
-        $transaction = $transaction->orderBy('id', 'DESC');
 
-        $transaction = $transaction->paginate(10);
-        $data['transaction'] = $transaction;
+        // Mengambil semua lisensi yang terkait dengan transaksi pengguna
+        $transactionLicenseMap = TransactionLisense::whereIn('transaction_license_id', $transactions->pluck('id'))
+            ->get()
+            ->groupBy('transaction_license_id');
+
+        $data['transaction'] = $transactions;
         $data['userdetails'] = $userdetails;
+        $data['transactionLicenseMap'] = $transactionLicenseMap;
+
         return view('front.transaksi', $data, ['user' => $user]);
     }
+
 
     public function process(Request $request)
     {
@@ -46,10 +54,10 @@ class TransaksiController extends Controller
             Cart::store(Auth::user()->name);
         }
 
-        if($request->products){
+        if ($request->products) {
             foreach ($request->products as $productData) {
                 $product = Product::findOrFail($productData['id']);
-                
+
                 if (!$product) {
                     return response()->json([
                         'status' => false,
@@ -67,7 +75,7 @@ class TransaksiController extends Controller
                 'qty' => $request->qty
             ]);
         }
-    
+
         return response()->json([
             'status' => true,
             'massege' => 'Silahkan bayar pesanan anda'
@@ -75,12 +83,12 @@ class TransaksiController extends Controller
     }
 
     public function pay(Request $request)
-    {   
+    {
         $user = Auth::user();
 
-        $userdetails = UserDetails::where('user_id',$user->id)->first();
+        $userdetails = UserDetails::where('user_id', $user->id)->first();
 
-        $transaction = Transaction::where('id', $request-> transactionId)->first();
+        $transaction = Transaction::where('id', $request->transactionId)->first();
         // Set your Merchant Server Key
         // \Midtrans\Config::$serverKey = "SB-Mid-server-fLRCa8dPfavwqJpXZxqETIKZ";
         \Midtrans\Config::$serverKey = config('midtrans.serverkey');
@@ -112,30 +120,48 @@ class TransaksiController extends Controller
         ]);
     }
 
-    public function status($transaction){
+    public function status($transaction)
+    {
 
-            // $user = Auth::user();
-            // $product = Product::where('status', 1)->get();
+        // $user = Auth::user();
+        // $product = Product::where('status', 1)->get();
 
-            $transaction = Transaction::where('id', $transaction)->first();
-            $transaction->status = 'success';
-            $transaction->save();
+        $transaction = Transaction::where('id', $transaction)->first();
+        $transaction->status = 'success';
+        $transaction->save();
 
-            // foreach ($transaction->transaction_details as $detail) {
-            //     foreach ($product as $prod) {
-            //         if ($prod->id == $detail->product_id) {
-            //             $prod->qty -= $detail->qty;
-            //             $prod->save();
-            //         }
-            //     }
-            // }
 
-            foreach ($transaction->product as $prod) {
-                $prod->qty -= $prod->pivot->qty;
-                $prod->save();
+        foreach ($transaction->product as $prod) {
+            // dd($prod->pivot->id,$prod->pivot->qty );
+            // exit();
+            $product_license = productLisense::where('product_id', $prod->id)->take($prod->pivot->qty)->get();
+            foreach ($product_license as $prod_lis) {
+                $trans_lis = new TransactionLisense();
+                $trans_lis->transaction_license_id = $prod->pivot->id;
+                $trans_lis->license = $prod_lis->license;
+                $trans_lis->save();
+
+                $prod_lis->delete();
             }
-
-            session()->flash('success','Produk berhasil dibeli');
-            return redirect()->route('front.transaksi');
         }
+
+        foreach ($transaction->product as $prod) {
+            // dd($prod->pivot->id,$prod->pivot->qty );
+            // exit();
+            $prod->qty -= $prod->pivot->qty;
+            $prod->save();
+        }
+
+        // foreach ($transaction->transaction_details as $detail) {
+        //     foreach ($product as $prod) {
+        //         if ($prod->id == $detail->product_id) {
+        //             $prod->qty -= $detail->qty;
+        //             $prod->save();
+        //         }
+        //     }
+        // }
+
+        session()->flash('success', 'Produk berhasil dibeli');
+        return redirect()->route('front.transaksi');
+    }
 }

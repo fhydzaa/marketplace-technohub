@@ -11,11 +11,22 @@
         <div class="row">
             <div class="col-lg-5 col-12 mb-4">
                 <div class="row gx-3">
-                    <div class="col-12 mb-4">
+                    <div class="col-6 mb-4">
                         <div class="small-box card text-center rounded-4">
                             <div class="inner">
                                 <h1>{{ $transaction->where('status', 'success')->count() }}</h1>
-                                <p>Total Transaksi Berhasil</p>
+                                <p>Transaksi Sukses</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-4">
+                        <div class="small-box card text-center rounded-4">
+                            <div class="inner">
+                                <h1>{{ $transaction->where('status', 'pending')->count() }}</h1>
+                                <p>Transaksi Pending</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>

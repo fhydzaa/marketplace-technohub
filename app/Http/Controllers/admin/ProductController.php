@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\productLisense;
 use App\Models\TempImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -69,6 +70,29 @@ class ProductController extends Controller
             $product->qty = $request->qty;
             $product->status = $request->status;
             $product->save();
+
+            function generateLicenseKey() {
+                $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                $segments = [];
+                for ($i = 0; $i < 4; $i++) {
+                    $segment = '';
+                    for ($j = 0; $j < 4; $j++) {
+                        $segment .= $chars[rand(0, strlen($chars) - 1)];
+                    }
+                    $segments[] = $segment;
+                }
+                return implode('-', $segments);
+            }
+
+            foreach (range(1, $request->qty) as $index) {
+                $licenseKey = generateLicenseKey(); // Menghasilkan lisensi acak
+        
+                // Simpan lisensi ke dalam database
+                $productLicense = new productLisense();
+                $productLicense->product_id = $product->id;
+                $productLicense->license = $licenseKey;
+                $productLicense->save();
+            }
 
             if (!empty($request->image_array)) {
                 foreach ($request->image_array as $temp_image_id) {
@@ -142,6 +166,7 @@ class ProductController extends Controller
     public function update($id, Request $request)
     {
         $product = Product::find($id);
+        $productLicense = productLisense::where('product_id', $id)->count();
 
         // dd($request->image_array);
         // exit();
@@ -162,6 +187,37 @@ class ProductController extends Controller
             $product->qty = $request->qty;
             $product->status = $request->status;
             $product->save();
+
+            function generateLicenseKey() {
+                $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                $segments = [];
+                for ($i = 0; $i < 4; $i++) {
+                    $segment = '';
+                    for ($j = 0; $j < 4; $j++) {
+                        $segment .= $chars[rand(0, strlen($chars) - 1)];
+                    }
+                    $segments[] = $segment;
+                }
+                return implode('-', $segments);
+            }
+
+            if($productLicense<$request->qty){
+                foreach (range(1, $request->qty-$productLicense) as $index) {
+                    $licenseKey = generateLicenseKey(); // Menghasilkan lisensi acak
+            
+                    // Simpan lisensi ke dalam database
+                    $productLicense = new productLisense();
+                    $productLicense->product_id = $product->id;
+                    $productLicense->license = $licenseKey;
+                    $productLicense->save();
+                }
+            } else {
+                $product_license = productLisense::where('product_id', $product->id)->take($productLicense-$request->qty)->get();
+                foreach ($product_license as $prod_lis) {
+                    $prod_lis->delete();
+                }
+            }
+            
 
             $request->session()->flash('success', 'Product berhasil diupdate');
 

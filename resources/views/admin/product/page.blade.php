@@ -91,7 +91,7 @@
                         src="{{ asset('front-assets/img/product.png') }}"
                         class="card-img-top"
                         alt="Product"
-                        style="width: 100%; height: 189px; object-fit: cover"
+                        style="width: 100px; height: 100px; object-fit: cover"
                     />
                     @endif
                 </td>
