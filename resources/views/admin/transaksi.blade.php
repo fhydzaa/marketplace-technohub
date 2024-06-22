@@ -114,9 +114,12 @@
                         <table class="table mt-3">
                             <thead class="table-secondary">
                                 <tr>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Price</th>
+                                    <th scope="col">Nama Produk</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Harga</th>
+                                    @if($trans->status == 'success')
+                                    <th scope="col">License</th>\
+                                    @endif  
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,6 +131,21 @@
                                         Rp
                                         {{ number_format($prod->price, 0, ',', '.') }}
                                     </td>
+                                    @if($trans->status == 'success')
+                                    <td class="text-center align-middle">
+                                        @if($transaction_details->isNotEmpty())
+                                            @foreach($transaction_details as $trans_det)
+                                                @if($trans_det->id == $prod->pivot->id)
+                                                    @foreach($trans_det->transactionLicense as $trans_li)
+                                                        {{ $trans_li->license }}<br />
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            No license available
+                                        @endif
+                                    </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

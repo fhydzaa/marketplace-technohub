@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transaction_lisense', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_license_id')->constrained('transaction_details')->onDelete('cascade');
+            $table->foreignId('transaction_details_id')->constrained('transaction_details')->onDelete('cascade');
             $table->string('license');
             $table->timestamps();
         });

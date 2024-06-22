@@ -11,7 +11,7 @@ class TransactionLisense extends Model
 
     public function transactionDetail()
     {
-        return $this->belongsTo('App\Models\TransactionDetail');
+        return $this->belongsTo(TransactionDetails::class);
     }
 }
 

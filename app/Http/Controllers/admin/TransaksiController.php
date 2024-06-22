@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\TransactionDetails;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,10 @@ class TransaksiController extends Controller
 
         $transaction = $transaction->paginate(10);
 
+        $transaction_details = TransactionDetails::with('transactionLicense')->get();
+
         $data['transaction'] = $transaction;
+        $data['transaction_details'] = $transaction_details;
         return view('admin.transaksi', $data);
     }
 

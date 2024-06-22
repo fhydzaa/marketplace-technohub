@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\productLisense;
 use App\Models\Transaction;
+use App\Models\TransactionDetails;
 use App\Models\TransactionLisense;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -16,18 +17,18 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $transactions = Transaction::where('user_id', $user->id)->orderBy('id', 'DESC')->paginate(10);
+        $transactions = Transaction::where('user_id', $user->id)->with('product')->orderBy('id', 'DESC')->paginate(10);
         $userdetails = UserDetails::where('user_id', $user->id)->get();
-
+        $transaction_details = TransactionDetails::with('transactionLicense')->get();
         // Mengambil semua lisensi yang terkait dengan transaksi pengguna
-        $transactionLicenseMap = TransactionLisense::whereIn('transaction_license_id', $transactions->pluck('id'))
-            ->get()
-            ->groupBy('transaction_license_id');
 
         $data['transaction'] = $transactions;
         $data['userdetails'] = $userdetails;
-        $data['transactionLicenseMap'] = $transactionLicenseMap;
-
+        $data['transaction_details'] = $transaction_details;
+        // $transactionLicenseMap->each(function ($item) {
+        //     dd($item->transaction_license_id); // Ini akan menampilkan setiap transaction_license_id
+        // }); 
+        // dd($transaction_details);     
         return view('front.transaksi', $data, ['user' => $user]);
     }
 

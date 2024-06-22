@@ -105,42 +105,59 @@
                                 <tr>
                                     <th scope="col">Nama Produk</th>
                                     <th scope="col">Jumlah</th>
-                                    <th scope="col">License</th>
                                     <th scope="col">Price</th>
+                                    @if($trans->status == 'success')
+                                    <th scope="col">License</th>
                                     <th scope="col">Ulasan</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($trans->product as $prod)
                                 <tr>
-                                    <td class="text-center align-middle">{{ $prod->title }}</td>
-                                    <td class="text-center align-middle">{{ $prod->pivot->qty }}</td>
                                     <td class="text-center align-middle">
-                                        @if(isset($transactionLicenseMap[$prod->pivot->id]))
-                                        @foreach($transactionLicenseMap[$prod->pivot->id]
-                                        as $trans_li)
-                                        {{ $trans_li->license }}<br />
-                                        @endforeach @else No license available
-                                        @endif
+                                        {{ $prod->title }}
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        {{ $prod->pivot->qty }}
                                     </td>
                                     <td class="text-center align-middle">
                                         Rp
                                         {{ number_format($prod->price, 0, ',', '.') }}
                                     </td>
+                                    @if($trans->status == 'success')
+                                    <td class="text-center align-middle">
+                                        @if($transaction_details->isNotEmpty())
+                                            @foreach($transaction_details as $trans_det)
+                                                @if($trans_det->id == $prod->pivot->id)
+                                                    @foreach($trans_det->transactionLicense as $trans_li)
+                                                        {{ $trans_li->license }}<br />
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            No license available
+                                        @endif
+                                    </td>
                                     <td class="text-center align-middle">
                                         <a
                                             href="{{ route('front.review', $prod->slug) }}"
                                             class="btn btn-primary btn-review rounded-4"
-                                            style="background-color: #123159; color: white"
+                                            style="
+                                                background-color: #123159;
+                                                color: white;
+                                            "
                                         >
                                             <i class="fas fa-pencil-alt"></i>
                                             Beri Ulasan
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        
                     </div>
                 </td>
             </tr>
