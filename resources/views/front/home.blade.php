@@ -33,8 +33,7 @@
 >
     <h2 class="mt-5 text-center">Selamat datang di Wisata Digital Product</h2>
     <p class="text-center">
-        Tempatnya untuk menemukan dan merasakan keajaiban produk digital
-        terbaik!
+        Temukan produk game terbaik hanya disini
     </p>
     <div class="container text-align-center mt-2">
         <div class="d-flex flex-column gap-4">
