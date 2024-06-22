@@ -132,6 +132,7 @@
                     @endforeach @endif
                 </div>
             </div> -->
+            
             @if(Auth::check())
             <hr class="mt-2" style="width: 100%" />
             <div class="col-md-8">
@@ -335,7 +336,7 @@
                             }
                         } else {
                             window.location.href =
-                                "{{ route('front.product', $product->slug) }}";
+                                "{{ route('front.detilProduct', $product->slug) }}";
                         }
                     },
 

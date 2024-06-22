@@ -103,29 +103,39 @@
                         <table class="table mt-3">
                             <thead class="table-secondary">
                                 <tr>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Nama Produk</th>
+                                    <th scope="col">Jumlah</th>
                                     <th scope="col">License</th>
                                     <th scope="col">Price</th>
+                                    <th scope="col">Ulasan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($trans->product as $prod)
                                 <tr>
-                                    <td>{{ $prod->title }}</td>
-                                    <td>{{ $prod->pivot->qty }}</td>
-                                    <td>
+                                    <td class="text-center align-middle">{{ $prod->title }}</td>
+                                    <td class="text-center align-middle">{{ $prod->pivot->qty }}</td>
+                                    <td class="text-center align-middle">
                                         @if(isset($transactionLicenseMap[$prod->pivot->id]))
-                                            @foreach($transactionLicenseMap[$prod->pivot->id] as $trans_li)
-                                                {{ $trans_li->license }}<br>
-                                            @endforeach
-                                        @else
-                                            No license available
+                                        @foreach($transactionLicenseMap[$prod->pivot->id]
+                                        as $trans_li)
+                                        {{ $trans_li->license }}<br />
+                                        @endforeach @else No license available
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="text-center align-middle">
                                         Rp
                                         {{ number_format($prod->price, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a
+                                            href="{{ route('front.review', $prod->slug) }}"
+                                            class="btn btn-primary btn-review rounded-4"
+                                            style="background-color: #123159; color: white"
+                                        >
+                                            <i class="fas fa-pencil-alt"></i>
+                                            Beri Ulasan
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
