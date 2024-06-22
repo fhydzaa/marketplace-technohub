@@ -138,7 +138,7 @@ class TransaksiController extends Controller
             $product_license = productLisense::where('product_id', $prod->id)->take($prod->pivot->qty)->get();
             foreach ($product_license as $prod_lis) {
                 $trans_lis = new TransactionLisense();
-                $trans_lis->transaction_license_id = $prod->pivot->id;
+                $trans_lis->transaction_details_id = $prod->pivot->id;
                 $trans_lis->license = $prod_lis->license;
                 $trans_lis->save();
 
