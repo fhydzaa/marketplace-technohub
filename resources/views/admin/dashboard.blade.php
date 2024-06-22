@@ -37,7 +37,7 @@
                         <div class="small-box card text-center rounded-4">
                             <div class="inner">
                                 <h1>{{ $transaction->unique('user_id')->count() }}</h1>
-                                <p>Total Pembeli</p>
+                                <p>Total User</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
