@@ -31,7 +31,7 @@
     class="d-flex flex-column align-items-center justify-content-evenly section-animation"
     id="animatedSection"
 >
-    <h2 class="mt-5 text-center">Selamat datang di Wisata Digital Product</h2>
+    <h2 class="mt-5 text-center">Selamat datang di Website Digital Product</h2>
     <p class="text-center">
         Temukan produk game terbaik hanya disini
     </p>
