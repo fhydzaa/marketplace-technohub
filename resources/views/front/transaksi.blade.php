@@ -104,8 +104,8 @@
                             <thead class="table-secondary">
                                 <tr>
                                     <th scope="col">Nama Produk</th>
+                                    <th scope="col">Harga</th>
                                     <th scope="col">Jumlah</th>
-                                    <th scope="col">Price</th>
                                     @if($trans->status == 'success')
                                     <th scope="col">License</th>
                                     <th scope="col">Ulasan</th>
@@ -119,12 +119,13 @@
                                         {{ $prod->title }}
                                     </td>
                                     <td class="text-center align-middle">
-                                        {{ $prod->pivot->qty }}
-                                    </td>
-                                    <td class="text-center align-middle">
                                         Rp
                                         {{ number_format($prod->price, 0, ',', '.') }}
                                     </td>
+                                    <td class="text-center align-middle">
+                                        {{ $prod->pivot->qty }}
+                                    </td>
+                                    
                                     @if($trans->status == 'success')
                                     <td class="text-center align-middle">
                                         @if($transaction_details->isNotEmpty())
