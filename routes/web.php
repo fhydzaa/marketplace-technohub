@@ -38,6 +38,7 @@ use App\Http\Controllers\UserDetailsController;
 //     return view('welcome');
 // });
 Route::get('/', [FrontController::class, 'index'])->name('front.home');
+Route::get('/admin', [AdminLoginController::class, 'index'])->name('admin.login');
 Route::get('/product', [ShopController::class, 'index'])->name('front.product');
 Route::get('/product/{slug}', [ShopController::class, 'product'])->name('front.detilProduct');
 Route::post('/save-rating/{productId}', [ShopController::class, 'saveRating'])->name('front.saveRating');
