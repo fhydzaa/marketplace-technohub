@@ -31,7 +31,7 @@
     <div class="py-3">
         <a
             href="{{ route('product.buat') }}"
-            class="ms-5 btn btn-primary rounded-4 px-4"
+            class="btn btn-primary rounded-4 px-4"
             >Add Product</a
         >
     </div>
