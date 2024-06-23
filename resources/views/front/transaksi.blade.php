@@ -254,6 +254,7 @@
                                 JSON.stringify(result, null, 2);
                         },
                         onClose: function () {
+                            alert('Pembayaranmu akan gagal')
                             // Handle jika pengguna menutup modal QRIS sebelum pembayaran selesai
                         },
                     });

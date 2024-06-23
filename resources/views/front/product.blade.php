@@ -199,15 +199,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="container mt-2 d-flex justify-content-end">
-                    <a
-                        href="{{ route('front.review', $product->slug) }}"
-                        class="btn"
-                        style="background-color: #123159; color: white"
-                        >Tambah Ulasan</a
-                    >
-                </div>
             </div>
         </div>
     </div>
