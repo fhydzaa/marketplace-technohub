@@ -37,7 +37,7 @@
                     data-bs-slide="prev"
                 >
                     <i
-                        class="fa fa-2x fa-angle-left text-dark"
+                        class="fa-solid fa-angle-left text-dark"
                         style="
                             background-color: rgba(255, 255, 255, 0.3);
                             padding: 30px;
@@ -51,7 +51,7 @@
                     data-bs-slide="next"
                 >
                     <i
-                        class="fa fa-2x fa-angle-right text-dark"
+                        class="fa-solid fa-angle-right text-dark"
                         style="
                             background-color: rgba(255, 255, 255, 0.3);
                             padding: 30px;
@@ -70,25 +70,29 @@
 
         <div class="col-6 d-flex flex-column mt-5">
             <h2>{{ $product->title }}</h2>
-            <div class="d-flex align-items-center">
-                <h5>{{ $avgRating }}</h5>
-                <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
-                    <div class="back-stars">
-                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        <div class="front-stars" style="width: {{ $ratingPer }}%">
-                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                        </div>
-                    </div>
+            <div class="d-flex align-items-end">
+                <div class="d-flex align-items-center">
+                    <h5>{{ $avgRating }}</h5>
                 </div>
-                <div class="ps-2">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
+                <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
+                    <div class="star-rating mt-2">
+                        <div class="back-stars">
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <div class="front-stars" style="width: {{ $avgRatingPer }}%">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+                <div class="ps-2 d-flex align-items-center">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
             </div>
             <br><br>
             <h4>Rp {{ number_format($product->price, 0, ',', '.') }}</h4>
@@ -171,21 +175,21 @@
                                 <div class="rating-group mb-4">
                                     <span class="author"><strong>{{ $rating->username }}</strong></span>
                                     <div class="star-rating mt-2">
-                                        <div class="back-stars">
-                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            <div class="front-stars" style="width: {{ $ratingPer }}%">
-                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="back-stars">
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <div class="front-stars" style="width: {{ $ratingPer }}%">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
                                     <div class="my-3">
                                         <p>{{ $rating->comment }}</p>
                                     </div>

@@ -22,7 +22,7 @@
                 href="{{ route('front.product') }}"
                 class="btn btn-primary btn-lg rounded-4"
                 >Get Product</a
-            >   
+            >
         </div>
     </div>
 </section>
@@ -196,46 +196,31 @@
                     <div
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
-                        <a class="fs-5 text-light text-decoration-none" href="#"
-                            ><img
-                                src="{{
-                                    asset('front-assets/img/facebook.png')
-                                }}"
-                                alt="Facebook"
-                                width="40px"
-                                height="39px"
-                                style="margin-right: 10px"
-                            />Facebook</a
+                        <a
+                            class="fs-5 text-light text-decoration-none"
+                            href="#"
+                        >
+                            <i class="fab fa-facebook"></i>
+                            <!-- Memperbaiki kelas ikon menjadi "fab fa-facebook" -->
+                            Facebook
+                        </a>
+                    </div>
+
+                    <div
+                        href="#"
+                        class="d-flex flex-row gap-2 align-items-center justify-content-start"
+                    >
+                        <a class="fs-5 text-light text-decoration-none"
+                            ><i class="fab fa-instagram"></i> Instagram</a
                         >
                     </div>
                     <div
                         href="#"
-                        class="d-flex flex-row gap-2 align-items-center justify-content-start" 
-                    >
-                        <a class="fs-5 text-light text-decoration-none"
-                            ><img
-                                src="{{
-                                    asset('front-assets/img/instagram.png')
-                                }}"
-                                alt="Instagram"
-                                width="40px"
-                                height="39px"
-                                style="margin-right: 10px"
-                            />Instagram</a
-                        >
-                    </div>
-                    <div
-                    href="#"
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
-                        <a class="fs-5 text-light text-decoration-none"
-                            ><img
-                                src="{{ asset('front-assets/img/twiter.png') }}"
-                                alt="Twitter"
-                                width="40px"
-                                height="39px"
-                                style="margin-right: 10px"
-                            />Twitter</a
+                        <a class="fs-5 text-light text-decoration-none">
+                            
+                            <i class="fa-brands fa-twitter"></i> Twitter</a
                         >
                     </div>
                 </div>

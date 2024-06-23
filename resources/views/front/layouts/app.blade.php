@@ -13,10 +13,7 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="{{ asset('front-assets/style.css') }}" />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
-        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"/>
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
@@ -31,6 +28,7 @@
             name="keywords"
             content="beli game, game terbaru, game populer, e-commerce game, toko game online"
         />
+        
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-light fixed-top">
@@ -94,10 +92,7 @@
                             />
                             @endif
                         </a>
-                        <ul
-                            class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="navbarDropdown"
-                        >
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <h4 class="dropdown-item mb-0">
                                     <strong>{{ $user->name }}</strong>
@@ -110,38 +105,26 @@
                             </li>
                             <li><hr class="dropdown-divider" /></li>
                             <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="{{ route('account.profileEdit', $user->id) }}"
-                                    ><i class="fa-solid fa-user mr-3" style="color: #123159;"></i>My
-                                    Profile</a
-                                >
+                                <a class="dropdown-item" href="{{ route('account.profileEdit', $user->id) }}">
+                                    <i class="fa-solid fa-user" style="color: #123159;"></i> My Profile
+                                </a>
                             </li>
                             <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="{{ route('front.cart') }}"
-                                    <i class="fa-solid fa-cart-shopping mr-3" style="color: #123159;"></i>
-                                    >Keranjang</a
-                                >
+                                <a class="dropdown-item" href="{{ route('front.cart') }}">
+                                    <i class="fa-solid fa-cart-shopping" style="color: #123159;"></i> Keranjang
+                                </a>
                             </li>
                             <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="{{ route('front.transaksi') }}"
-                                    <i class="fa-solid fa-money-bill mr-3" style="color: #123159;"></i>
-                                    Transaksi</a
-                                >
+                                <a class="dropdown-item" href="{{ route('front.transaksi') }}">
+                                    <i class="fa-solid fa-money-bill" style="color: #123159;"></i> Transaksi
+                                </a>
                             </li>
                             <li>
-                                <a
-                                    class="dropdown-item text-danger"
-                                    href="{{ route('account.logout') }}"
-                                    <i class="fa-solid fa-right-from-bracket mr-3" style="color: #123159;"></i>
-                                    >Logout</a
-                                >
+                                <a class="dropdown-item text-danger" href="{{ route('account.logout') }}">
+                                    <i class="fa-solid fa-right-from-bracket" style="color: #123159;"></i> Logout
+                                </a>
                             </li>
-                        </ul>
+                        </ul>                        
                     </li>
                 </ul>
                 @else
@@ -202,7 +185,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"
         ></script>
-        <script src="{{ asset('front-assets/script.js') }}"></script>
+        <script src="https://kit.fontawesome.com/f715660651.js" crossorigin="anonymous"></script>        <script src="{{ asset('front-assets/script.js') }}"></script>
         <script type="text/javascript">
             $.ajaxSetup({
                 headers: {
