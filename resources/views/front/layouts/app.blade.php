@@ -113,7 +113,7 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('account.profileEdit', $user->id) }}"
-                                    ><i class="fas fa-user-cog mr-3"></i>My
+                                    ><i class="fa-solid fa-user mr-3" style="color: #123159;"></i>My
                                     Profile</a
                                 >
                             </li>
@@ -121,7 +121,7 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('front.cart') }}"
-                                    ><i class="fas fa-shopping-cart mr-3"></i
+                                    <i class="fa-solid fa-cart-shopping mr-3" style="color: #123159;"></i>
                                     >Keranjang</a
                                 >
                             </li>
@@ -129,7 +129,7 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('front.transaksi') }}"
-                                    ><i class="fas fa-money-bill-wave mr-2"></i>
+                                    <i class="fa-solid fa-money-bill mr-3" style="color: #123159;"></i>
                                     Transaksi</a
                                 >
                             </li>
@@ -137,7 +137,7 @@
                                 <a
                                     class="dropdown-item text-danger"
                                     href="{{ route('account.logout') }}"
-                                    ><i class="fas fa-sign-out-alt mr-2"></i
+                                    <i class="fa-solid fa-right-from-bracket mr-3" style="color: #123159;"></i>
                                     >Logout</a
                                 >
                             </li>

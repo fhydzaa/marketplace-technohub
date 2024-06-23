@@ -149,7 +149,7 @@
                                                 color: white;
                                             "
                                         >
-                                            <i class="fas fa-pencil-alt"></i>
+                                            <i class="fa-solid fa-pen"></i>
                                             Beri Ulasan
                                         </a>
                                     </td>

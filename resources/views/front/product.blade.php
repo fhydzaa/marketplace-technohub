@@ -74,17 +74,17 @@
                 <h5>{{ $avgRating }}</h5>
                 <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
                     <div class="back-stars">
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <div class="front-stars" style="width: {{ $avgRatingPer }}%">
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
+                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                        <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                        <div class="front-stars" style="width: {{ $ratingPer }}%">
+                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
@@ -172,17 +172,17 @@
                                     <span class="author"><strong>{{ $rating->username }}</strong></span>
                                     <div class="star-rating mt-2">
                                         <div class="back-stars">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                            <i class="class="fa-duetone fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
                                             <div class="front-stars" style="width: {{ $ratingPer }}%">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                                <i class="class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
