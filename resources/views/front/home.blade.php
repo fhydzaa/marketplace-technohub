@@ -31,10 +31,10 @@
     class="d-flex flex-column align-items-center justify-content-evenly section-animation"
     id="animatedSection"
 >
-    <h2 class="mt-5 text-center">Selamat datang di Website Digital Product Terbaik Didunia</h2>
-    <p class="text-center">
-        Temukan produk game terbaik hanya disini
-    </p>
+    <h2 class="mt-5 text-center">
+        Selamat datang di Website Digital Product Terbaik Didunia
+    </h2>
+    <p class="text-center">Temukan produk game terbaik hanya disini</p>
     <div class="container text-align-center mt-2">
         <div class="d-flex flex-column gap-4">
             <div class="d-flex flex-row justify-content-center flex-wrap gap-4">
@@ -196,7 +196,7 @@
                     <div
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
-                        <a class="fs-5 text-light text-decoration-none"
+                        <a class="fs-5 text-light text-decoration-none" href="#"
                             ><img
                                 src="{{
                                     asset('front-assets/img/facebook.png')
@@ -209,7 +209,8 @@
                         >
                     </div>
                     <div
-                        class="d-flex flex-row gap-2 align-items-center justify-content-start"
+                        href="#"
+                        class="d-flex flex-row gap-2 align-items-center justify-content-start" 
                     >
                         <a class="fs-5 text-light text-decoration-none"
                             ><img
@@ -224,6 +225,7 @@
                         >
                     </div>
                     <div
+                    href="#"
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
                         <a class="fs-5 text-light text-decoration-none"
