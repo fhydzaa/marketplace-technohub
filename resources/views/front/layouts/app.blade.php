@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{{ asset('front-assets/style.css') }}" />
         <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
         />
         <link
             rel="stylesheet"

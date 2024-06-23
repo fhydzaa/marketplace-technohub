@@ -22,7 +22,7 @@
                 href="{{ route('front.product') }}"
                 class="btn btn-primary btn-lg rounded-4"
                 >Get Product</a
-            >
+            >   
         </div>
     </div>
 </section>
