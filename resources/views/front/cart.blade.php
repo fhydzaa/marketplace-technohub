@@ -42,6 +42,7 @@
                 data-id="{{ $item->id }}"
                 data-price="{{ $item->price }}"
                 data-qty="{{ $item->qty }}"
+                data-title="{{ $item->name }}"
             >
                 <div class="py-2">
                     @if (!empty($item->options->product_image->image))
@@ -256,6 +257,11 @@
 
 <script type="text/javascript">
     document.getElementById("pay-button").onclick = function () {
+        let p_id = [];
+        let p_title = [];
+        let p_qty = [];
+        let p_price = [];
+        let p_subtotal = [];
         let products = [];
 
         // Mengambil semua elemen dengan class 'product-item'
@@ -266,17 +272,39 @@
             let productId = item.getAttribute("data-id");
             let price = item.getAttribute("data-price");
             let qty = item.getAttribute("data-qty");
+            let title = item.getAttribute("data-title");
 
             // Tambahkan produk ke array
+            p_id.push({
+                id: productId,
+            });
+
+            p_price.push({
+                price: price,
+            });
+
+            p_qty.push({
+                qty: qty,
+            });
+
+            p_title.push({
+                title: title,
+            });
+
+            p_subtotal.push({
+                subtotal: qty*price,
+            });
+
             products.push({
                 id: productId,
+                name: title,
+                quantity: qty,
                 price: price,
-                qty: qty,
             });
         });
 
         let subtotalElement = document.getElementById("cart-subtotal");
-        let subtotal = subtotalElement.getAttribute("data-subtotal");
+        let total = subtotalElement.getAttribute("data-subtotal");
 
         // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
         $.ajax({
@@ -284,8 +312,13 @@
             method: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                products: products, // Mengirimkan array produk
-                subtotal: subtotal,
+                products:products,
+                id: p_id, // Mengirimkan array produk
+                price: p_price, // Mengirimkan array produk
+                qty: p_qty, // Mengirimkan array produk
+                title: p_title, // Mengirimkan array produk
+                subtotal: p_subtotal, // Mengirimkan array produk
+                total: total,
             },
             success: function (response) {
                 if (response.status) {

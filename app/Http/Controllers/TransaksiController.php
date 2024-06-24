@@ -37,17 +37,21 @@ class TransaksiController extends Controller
     {
 
         $user = Auth::user();
+
         $userIdStr = strval($user->id);
         $randomStr = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10 - strlen($userIdStr));
         $noOrder = $userIdStr . $randomStr;
+
+        $userdetails = UserDetails::where('user_id', $user->id)->first();
 
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
         $transaction->id_order = $noOrder;
         $transaction->status = 'pending';
         $transaction->sanp_token = '';
-        $transaction->total_price = $request->subtotal;
+        $transaction->total_price = $request->total;
         $transaction->save();
+        
 
         Cart::destroy();
         // Store cart
@@ -67,43 +71,31 @@ class TransaksiController extends Controller
                 }
                 // Simpan relasi many-to-many
                 $transaction->product()->attach($product, [
-                    'qty' => $productData['qty']
+                    'qty' => $productData['quantity']
                 ]);
             }
         } else {
-            $product = Product::findOrFail($request->productId);
+            $product = Product::findOrFail($request->id);
             $transaction->product()->attach($product, [
                 'qty' => $request->qty
             ]);
         }
 
-        return response()->json([
-            'status' => true,
-            'massege' => 'Silahkan bayar pesanan anda'
-        ]);
-    }
-
-    public function pay(Request $request)
-    {
-        $user = Auth::user();
-
-        $userdetails = UserDetails::where('user_id', $user->id)->first();
-
-        $transaction = Transaction::where('id', $request->transactionId)->first();
-        // Set your Merchant Server Key
-        // \Midtrans\Config::$serverKey = "SB-Mid-server-fLRCa8dPfavwqJpXZxqETIKZ";
         \Midtrans\Config::$serverKey = config('midtrans.serverkey');
         \Midtrans\Config::$isProduction = false; // Set to true for Production Environment
         \Midtrans\Config::$isSanitized = true; // Set sanitization on
         \Midtrans\Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
+        // dd($request->title);
+        // exit();
         $params = array(
             'transaction_details' => array(
-                'order_id' => uniqid(),
+                'order_id' => uniqid(), 
                 'gross_amount' => $transaction->total_price,
             ),
+            'item_details' => $request->products,
             'customer_details' => array(
-                'name' => $user->name,
+                'first_name' => $user->name,
                 'email' => $user->email,
                 'phone' => $userdetails->no_telephone,
             ),
@@ -111,13 +103,22 @@ class TransaksiController extends Controller
 
         $snap_token = \Midtrans\Snap::getSnapToken($params);
 
-
         $transaction->sanp_token = $snap_token;
         $transaction->save();
 
         return response()->json([
             'status' => true,
-            'snap_token' => $snap_token
+            'snap_token' => $transaction->sanp_token
+        ]);
+    }
+
+    public function pay(Request $request)
+    {
+        $transaction = Transaction::where('id', $request->transactionId)->first();
+
+        return response()->json([
+            'status' => true,
+            'snap_token' => $transaction->sanp_token,
         ]);
     }
 

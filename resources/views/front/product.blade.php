@@ -145,7 +145,7 @@
                     </a>
                     <a
                     href="javascript:void(0)"
-                    onclick="buynow({{ $product->id }}, {{ $product->price }});"
+                    onclick="buynow({{ $product->id }}, {{ $product->price }}, '{{ addslashes($product->title) }}');"
                         
                         class="btn rounded-4"
                         style="background-color: darkcyan; color: white"
@@ -237,20 +237,28 @@
         });
     }
 
-    function buynow(id, price){
+    function buynow(id, price, title ){
             var qty= $('.qty-input').val();
-            let subtotal = price * qty;
+            let total = price * qty;
 
+            products.push({
+                id: id,
+                name: title,
+                quantity: qty,
+                price: price,
+            });
         // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
             $.ajax({
                 url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
                 method: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    productId: id, // Mengirimkan array produk
-                    subtotal: subtotal,
+                    id: id, // Mengirimkan array produk
                     price: price,
-                    qty:qty
+                    qty:qty,
+                    title: title,
+                    subtotal: total,
+                    total: total,
 
                 },
                 success: function (response) {

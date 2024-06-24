@@ -65,9 +65,8 @@
                     >
                         @if($trans->status == 'pending')
                         <a
-                            id="pay-button"
+                            class="btn btn-danger rounded-4 pay-button"
                             data-id="{{ $trans->id }}"
-                            class="btn btn-danger rounded-4"
                             href="javascript:void(0);"
                         >
                             Bayar
@@ -175,26 +174,6 @@
 </div>
 
 @endsection @section('customJs')
-<!-- <script>
-    document.querySelectorAll(".detail-button").forEach((button) => {
-        button.addEventListener("click", function () {
-            const detailRow = document.getElementById(
-                "detail-" + this.dataset.id
-            );
-            if (detailRow.style.display === "none") {
-                detailRow.style.display = "table-row";
-                this.querySelector(".bi").classList.remove(
-                    "bi-caret-down-fill"
-                );
-                this.querySelector(".bi").classList.add("bi-caret-up-fill");
-            } else {
-                detailRow.style.display = "none";
-                this.querySelector(".bi").classList.remove("bi-caret-up-fill");
-                this.querySelector(".bi").classList.add("bi-caret-down-fill");
-            }
-        });
-    });
-</script> -->
 <script>
     $(document).ready(function () {
         $(".detail-button").click(function () {
@@ -211,62 +190,43 @@
                     .addClass("bi-caret-down-fill");
             }
         });
+
+        $(".pay-button").click(function () {
+            let transactionId = $(this).data("id");
+            $.ajax({
+                url: "{{ route('front.pay') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    transactionId: transactionId,
+                },
+                success: function (response) {
+                    if (response.snap_token) {
+                        snap.pay(response.snap_token, {
+                            onSuccess: function (result) {
+                                window.location.href = "{{ route('transaction.pay', ['transaction' => 'transactionId']) }}".replace("transactionId", transactionId);
+                            },
+                            onPending: function (result) {
+                                document.getElementById("result-json").innerHTML += JSON.stringify(result, null, 2);
+                            },
+                            onError: function (result) {
+                                document.getElementById("result-json").innerHTML += JSON.stringify(result, null, 2);
+                            },
+                            onClose: function () {
+                                
+                            },
+                        });
+                    } else {
+                        alert("Gagal mendapatkan token transaksi.");
+                    }
+                },
+                error: function (error) {
+                    alert("Terjadi kesalahan saat memproses transaksi.");
+                    console.error(error);
+                },
+            });
+        });
     });
 </script>
-<script
-    src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="<?php config('midtrans.clientkey')?>"
-></script>
-<script type="text/javascript">
-    document.getElementById("pay-button").onclick = function () {
-        // Kirim permintaan AJAX ke server untuk mendapatkan Snap Token
-        let transactionId = this.getAttribute("data-id");
-        $.ajax({
-            url: "{{ route('front.pay')}}",
-            method: "POST",
-            data: {
-                _token: "{{ csrf_token() }}",
-                transactionId: transactionId,
-            },
-            success: function (response) {
-                if (response.snap_token) {
-                    // Mulai pembayaran menggunakan Snap Token yang diperoleh
-                    snap.pay(response.snap_token, {
-                        // Optional
-                        onSuccess: function (result) {
-                            /* You may add your own js here, this is just example */
-                            window.location.href =
-                                "{{ route('transaction.pay', ['transaction' => 'transactionId']) }}".replace(
-                                    "transactionId",
-                                    transactionId
-                                );
-                        },
-                        // Optional
-                        onPending: function (result) {
-                            /* You may add your own js here, this is just example */
-                            document.getElementById("result-json").innerHTML +=
-                                JSON.stringify(result, null, 2);
-                        },
-                        // Optional
-                        onError: function (result) {
-                            /* You may add your own js here, this is just example */
-                            document.getElementById("result-json").innerHTML +=
-                                JSON.stringify(result, null, 2);
-                        },
-                        onClose: function () {
-                            alert('Pembayaranmu akan gagal')
-                            // Handle jika pengguna menutup modal QRIS sebelum pembayaran selesai
-                        },
-                    });
-                } else {
-                    alert("Gagal mendapatkan token transaksi.");
-                }
-            },
-            error: function (error) {
-                alert("Terjadi kesalahan saat memproses transaksi.");
-                console.error(error);
-            },
-        });
-    };
-</script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientkey') }}"></script>
 @endsection
