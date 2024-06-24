@@ -240,6 +240,8 @@
     function buynow(id, price, title ){
             var qty= $('.qty-input').val();
             let total = price * qty;
+            let products = [];
+
 
             products.push({
                 id: id,
@@ -253,6 +255,7 @@
                 method: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
+                    products:products,
                     id: id, // Mengirimkan array produk
                     price: price,
                     qty:qty,
