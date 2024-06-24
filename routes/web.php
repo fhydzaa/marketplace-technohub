@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/transaksi/process', [TransaksiController::class, 'process'])->name('front.transaksiProcess');
      Route::post('/transaksi/pay', [TransaksiController::class, 'pay'])->name('front.pay');
      Route::get('/transaksi/pay/{transaction}', [TransaksiController::class, 'status'])->name('transaction.pay');
+     Route::get('/transaksi/cek', [TransaksiController::class, 'cek'])->name('transaction.cek');
 });
 
 

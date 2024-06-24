@@ -166,4 +166,22 @@ class TransaksiController extends Controller
         session()->flash('success', 'Produk berhasil dibeli');
         return redirect()->route('front.transaksi');
     }
+
+    public function cek(Request $request){
+        $url = "https://app.sandbox.midtrans.com/snap/v1/transactions/{$request->snap_token}/status";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => 'Error parsing JSON'], 500);
+        }
+    }
 }
