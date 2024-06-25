@@ -11,32 +11,41 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="{{ asset('account-assets/style.css') }}" />
+        <link rel="preload" href="{{ asset('front-assets/img/logotech.png') }}" as="image">
     </head>
     <body>
+        @if (session('error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () { 
+                    alert("{{ session('error') }}")
+             })
+        </script>
+        @endif
+        @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () { 
+                    alert("{{ session('success') }}")
+                })
+        </script>
+        @endif
         <div class="container-login">
             <div class="container p-4 d-flex flex-row gap-4 rounded-4">
-                <img
-                    src="{{ asset('front-assets/img/logotech.png') }}"
-                    alt="LogotechNoHub"
-                />
+                <div class="d-flex justify-content-center align-items-center">
+                    <img
+                        id="logotech-img"
+                        src="{{ asset('front-assets/img/logotech.png') }}"
+                        alt="LogotechNoHub"
+                        class="center-img"
+                    />
+                </div>
                 <div class="container">
                     <form
                         action="{{ route('account.authenticate') }}"
                         method="post"
                     >
                         @csrf
-                        <h2>Hello,Everyone</h2>
-                        <p class="mb-5">we are glad you are here!</p>
-                        @if(Session::has('error'))
-
-                        <div>
-                            {{ Session::get('error') }}
-                        </div>
-                        @endif @if(Session::has('success'))
-                        <div>
-                            {{ Session::get('success') }}
-                        </div>
-                        @endif
+                        <h2>Hello, Everyone</h2>
+                        <p class="mb-5">We are glad you are here!</p>
                         <div class="mb-2 position-relative">
                             <img
                                 class="image-email @error('email') is-invalid @enderror"
@@ -53,9 +62,7 @@
                                 aria-describedby="emailHelp"
                                 placeholder="Email"
                             />
-                            <hr
-                                class="position-absolute translate-middle-x email"
-                            />
+                            <hr class="position-absolute translate-middle-x email" />
                             @error('email')
                             <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
@@ -63,9 +70,7 @@
                         <div class="mb-2 mt-n5 position-relative">
                             <img
                                 class="image-password @error('email') is-invalid @enderror"
-                                src="{{
-                                    asset('front-assets/img/password.png')
-                                }}"
+                                src="{{ asset('front-assets/img/password.png') }}"
                                 alt="password"
                                 width="20px"
                                 height="20px"
@@ -77,10 +82,8 @@
                                 name="password"
                                 placeholder="Password"
                             />
-                            <hr
-                                class="position-absolute translate-middle-x email"
-                            />
-                            @error('email')
+                            <hr class="position-absolute translate-middle-x email" />
+                            @error('password')
                             <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
                         </div>
@@ -122,4 +125,4 @@
             crossorigin="anonymous"
         ></script>
     </body>
-</html>
+</html    

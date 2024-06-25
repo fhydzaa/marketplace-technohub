@@ -89,6 +89,7 @@ class AuthController extends Controller
                 return redirect()->route('account.login')->with('error', 'Login gagal, cek email dan password');
             }
         } else {
+            session()->flash('error', 'Login gagal, cek email dan password');
             return redirect()->route('account.login')
                 ->withErrors($validator)
                 ->withInput($request->only('email'));

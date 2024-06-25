@@ -14,12 +14,28 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
     </head>
     <body>
+        @if (session('error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                alert("{{ session('error') }}");
+            });
+        </script>
+        @endif @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                alert("{{ session('success') }}");
+            });
+        </script>
+        @endif
         <div class="container-login">
             <div class="container px-4 py-4 d-flex flex-row gap-4 rounded-4">
-                <img
-                    src="{{ asset('account-assets/logotech.png') }}"
-                    alt="LogotechNoHub"
-                />
+                <div class="d-flex justify-content-center align-items-center">
+                    <img
+                        src="{{ asset('front-assets/img/logotech.png') }}"
+                        alt="LogotechNoHub"
+                        class="center-img"
+                    />
+                </div>
                 <div class="container">
                     <form
                         action=""
@@ -29,7 +45,7 @@
                     >
                         <h2>Hello,Everyone</h2>
                         <p class="mb-5">we are glad you are here!</p>
-                        @if(Session::has('error'))
+                        <!-- @if(Session::has('error'))
 
                         <div>
                             {{ Session::get('error') }}
@@ -38,7 +54,7 @@
                         <div>
                             {{ Session::get('success') }}
                         </div>
-                        @endif
+                        @endif -->
                         <div class="mb-2 position-relative">
                             <img
                                 class="image-email"
@@ -130,10 +146,14 @@
                             </button>
                         </div>
                         <div>
-                          <p>
-                            Already have an account?
-                            <a href="{{ route('account.login') }}" class="text-decoration-none text-danger">Login</a>
-                          </p>
+                            <p>
+                                Already have an account?
+                                <a
+                                    href="{{ route('account.login') }}"
+                                    class="text-decoration-none text-danger"
+                                    >Login</a
+                                >
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -145,12 +165,13 @@
             crossorigin="anonymous"
         ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#registrationForm").submit(function (event) {
                     event.preventDefault();
 
-                    $("button[type='submit']").prop('disable',true);
+                    $("button[type='submit']").prop("disable", true);
                     // Mendapatkan token CSRF dari meta tag dalam halaman
                     var csrfToken = $('meta[name="csrf-token"]').attr(
                         "content"
@@ -167,7 +188,7 @@
                         data: formData,
                         dataType: "json",
                         success: function (response) {
-                          $("button[type='submit']").prop('disable',false);
+                            $("button[type='submit']").prop("disable", false);
                             var errors = response.errors;
 
                             if (response.status == false) {
