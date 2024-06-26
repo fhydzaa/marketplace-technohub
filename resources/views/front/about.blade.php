@@ -1,4 +1,5 @@
 @extends('front.layouts.app')
+@section('content')
 <section class="hero-element d-flex flex-column gap-3 align-items-center justify-content-evenly py-5" style="margin-top: 70px">
       <div class="d-flex flex-column rounded-4 px-2 align-items-center justify-content-center">
         <h1>Tentang Kami</h1>
@@ -52,4 +53,4 @@
         </div>
       </div>
     </section>
-@section
+@endsection
