@@ -37,7 +37,7 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            session()->flash('success', 'Registrasi berhasil');
+            session()->flash('success', 'Registrasi Success');
 
             return response()->json([
                 'status' => true,
@@ -81,7 +81,9 @@ class AuthController extends Controller
                     return redirect()->route('front.home');
                 } else {
                     // Pengguna baru: Redirect ke account.profile
-                    return redirect()->route('account.profile');
+                    session()->flash('success', 'Login berhasil!');
+                    return redirect()->route('account.profile')->with('success', 'Login berhasil!');
+                    
                 }
                 // return view('front.home');
             } else {

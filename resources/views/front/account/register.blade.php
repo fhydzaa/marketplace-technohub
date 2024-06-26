@@ -12,12 +12,23 @@
         />
         <link rel="stylesheet" href="{{ asset('account-assets/style.css') }}" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         @if (session('error'))
         <script>
+            // document.addEventListener("DOMContentLoaded", function () {
+            //     alert("{{ session('error') }}");
+            // });
             document.addEventListener("DOMContentLoaded", function () {
-                alert("{{ session('error') }}");
+                const errorMessage = "{{ session('error') }}";
+                if (errorMessage) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
             });
         </script>
         @endif @if (session('success'))
@@ -25,6 +36,13 @@
             document.addEventListener("DOMContentLoaded", function () {
                 alert("{{ session('success') }}");
             });
+            // Swal.fire({
+            //     position: "top-start",
+            //     icon: "success",
+            //     title: "Your work has been saved",
+            //     showConfirmButton: true,
+            //     timer: 1500
+            // });
         </script>
         @endif
         <div class="container-login">

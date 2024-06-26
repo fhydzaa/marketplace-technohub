@@ -10,22 +10,28 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
         />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <link rel="stylesheet" href="{{ asset('account-assets/style.css') }}" />
         <link rel="preload" href="{{ asset('front-assets/img/logotech.png') }}" as="image">
     </head>
     <body>
         @if (session('error'))
         <script>
-            document.addEventListener("DOMContentLoaded", function () { 
-                    alert("{{ session('error') }}")
-             })
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Email dan Password Tidak Sesuai",
+            });
         </script>
         @endif
         @if (session('success'))
         <script>
-            document.addEventListener("DOMContentLoaded", function () { 
-                    alert("{{ session('success') }}")
-                })
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}'
+            });
         </script>
         @endif
         <div class="container-login">
@@ -86,16 +92,6 @@
                             @error('password')
                             <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input
-                                type="checkbox"
-                                class="form-check-input remember-me"
-                                id="remember-me"
-                            />
-                            <label class="form-check-label" for="remember-me"
-                                >Remember Me</label
-                            >
                         </div>
                         <div class="mb-5">
                             <button
