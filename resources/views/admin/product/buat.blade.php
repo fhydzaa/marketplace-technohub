@@ -175,7 +175,7 @@
                 data: fromArray,
                 dataType: "json",
                 success: function (response) {
-                    window.location.reload();
+                    window.location.href = "{{ route('product.page') }}";
                 },
                 error: function () {
                     console.log("Something Wrong");

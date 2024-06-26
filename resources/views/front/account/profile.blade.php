@@ -25,7 +25,7 @@
                 <img
                     class="rounded-circle"
                     id="previewImage"
-                    src=""
+                    src="{{ asset('front-assets/img/avatar5.png') }}"
                     width="200px"
                     height="200px"
                     style="border: 2px solid black"
@@ -44,35 +44,30 @@
         </div>
         <br />
         <br />
-        <h2 class="fw-bold mb-4">Rawon</h2>
-        <form action="#" method="POST" class="d-flex flex-column gap-4">
+        <h2 class="fw-bold">{{ $user->name }}</h2>
+        <h5 class="mb-4">{{ $user->email }}</h5>
+        <form
+            action="{{ route('account.profileAdd') }}"
+            method="POST"
+            class="d-flex flex-column gap-4"
+        >
+            @csrf
+            <input type="hidden" name="user_id" value="{{ $user->id }}" />
+            <input type="hidden" id="base64Image" name="base64Image" />
             <div class="row">
-                <label class="col-5" for="email">Email</label>
-                <input
-                    class="col-7 rounded-4"
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="rawon@gmail.com"
-                />
+                <label class="col-5" for="gender">Jenis Kelamin</label>
+                <select class="col-7 rounded-4" id="gender" name="gender">
+                    <option value="Laki - Laki">Laki - Laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
             </div>
             <div class="row">
-                <label class="col-5" for="jeniskelamin">Jenis Kelamin</label>
+                <label class="col-5" for="no_telephone">No-Telepon</label>
                 <input
                     class="col-7 rounded-4"
                     type="text"
-                    id="jeniskelamin"
-                    name="jeniskelamin"
-                    placeholder="Laki - Laki"
-                />
-            </div>
-            <div class="row">
-                <label class="col-5" for="notelepon">No-Telepon</label>
-                <input
-                    class="col-7 rounded-4"
-                    type="text"
-                    id="notelepon"
-                    name="notelepon"
+                    id="no_telephone"
+                    name="no_telephone"
                     placeholder="09876543"
                 />
             </div>
@@ -91,29 +86,86 @@
 </div>
 @endsection @section('customJs')
 <script>
-    var uploadButton = document.getElementById("uploadButton");
-    var imagePreview = document.getElementById("imagePreview");
-    var fileInput = document.getElementById("gambarInput");
+    document.addEventListener("DOMContentLoaded", function () {
+        var uploadButton = document.getElementById("uploadButton");
+        var imagePreview = document.getElementById("imagePreview");
+        var fileInput = document.getElementById("gambarInput");
+        var base64ImageInput = document.getElementById("base64Image");
+        var defaultImageSrc = "{{ asset('front-assets/img/avatar5.png') }}"; // Path ke gambar default
 
-    uploadButton.addEventListener("click", function () {
-        fileInput.click();
-    });
+        uploadButton.addEventListener("click", function () {
+            fileInput.click();
+        });
 
-    fileInput.addEventListener("change", function () {
-        imagePreview.innerHTML = "";
+        fileInput.addEventListener("change", function () {
+            var file = fileInput.files[0];
+            if (file) {
+                // Memeriksa ukuran file
+                var maxSizeInBytes = 100 * 1024; // 500 KB
+                if (file.size > maxSizeInBytes) {
+                    alert(
+                        "Ukuran file terlalu besar. Maksimum 100 KB yang diperbolehkan."
+                    );
+                    fileInput.value = ""; // Menghapus file yang dipilih
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+                    image.alt = "Selected Image";
+                    image.style.width = "200px";
+                    image.style.height = "200px";
+                    image.style.borderRadius = "50%";
+                    imagePreview.innerHTML = "";
+                    imagePreview.appendChild(image);
 
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var image = new Image();
-            image.src = e.target.result;
-            image.alt = "mantap";
-            image.style.width = "200px";
-            image.style.height = "200px";
-            image.style.borderRadius = "50%";
-            imagePreview.appendChild(image);
-        };
-        reader.readAsDataURL(file);
+                    // Simpan data base64 di input tersembunyi
+                    base64ImageInput.value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document
+            .querySelector("form")
+            .addEventListener("submit", function (event) {
+                if (base64ImageInput.value === "") {
+                    fetch(defaultImageSrc)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                            var reader = new FileReader();
+                            reader.onloadend = function () {
+                                base64ImageInput.value = reader.result;
+                                document.querySelector("form").submit();
+                            };
+                            reader.readAsDataURL(blob);
+                            event.preventDefault(); // Mencegah form submit sementara
+                        });
+                }
+            });
+
+        var defaultImageBlob;
+        fetch(defaultImageSrc)
+            .then((response) => response.blob())
+            .then((blob) => {
+                defaultImageBlob = blob;
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    var image = new Image();
+                    image.src = reader.result;
+                    image.alt = "Default Image";
+                    image.style.width = "200px";
+                    image.style.height = "200px";
+                    image.style.borderRadius = "50%";
+                    imagePreview.innerHTML = "";
+                    imagePreview.appendChild(image);
+
+                    // Set base64 value
+                    base64ImageInput.value = reader.result;
+                };
+                reader.readAsDataURL(blob);
+            });
     });
 </script>
 @endsection

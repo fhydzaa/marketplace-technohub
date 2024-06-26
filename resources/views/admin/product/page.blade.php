@@ -12,7 +12,7 @@
                 name="search"
                 placeholder="Cari Produk "
             />
-              <!-- <input
+            <!-- <input
                   value="{{ Request::get('search') }}"
                   name="search"
                   id="search"
@@ -27,19 +27,46 @@
         </div>
     </form>
 </div>
-
 <div class="container bg-light h-100 mb-3 rounded-4">
     <div class="py-3">
         <a
             href="{{ route('product.buat') }}"
-            class="ms-5 btn btn-primary rounded-4 px-4"
+            class="btn btn-primary rounded-4 px-4"
             >Add Product</a
         >
     </div>
+    @if (Session::has('success'))
+    <div
+        id="successAlert"
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('success') }}
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+    </div>
+    @endif @if (Session::has('error'))
+    <div
+        id="errorAlert"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('error') }}
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+    </div>
+    @endif
     <table class="table text-center">
         <thead>
             <tr>
-                <th scope="col" class="text-start">Id</th>
                 <th scope="col" class="text-start">Gambar</th>
                 <th scope="col" class="text-start">Product</th>
                 <th scope="col" class="text-start">Jenis</th>
@@ -51,9 +78,6 @@
             @if($product->isNotEmpty()) @foreach ($product as $prod) @php
             $productImage = $prod->product_image->first(); @endphp
             <tr>
-                <th class="align-middle text-start" scope="row">
-                    {{ $prod->id }}
-                </th>
                 <td class="text-start">
                     @if (!empty($productImage->image))
                     <img
@@ -67,7 +91,7 @@
                         src="{{ asset('front-assets/img/product.png') }}"
                         class="card-img-top"
                         alt="Product"
-                        style="width: 100%; height: 189px; object-fit: cover"
+                        style="width: 100px; height: 100px; object-fit: cover"
                     />
                     @endif
                 </td>
@@ -81,25 +105,18 @@
                     <div
                         class="d-flex justify-content-center align-items-center gap-3"
                     >
-                        <button
-                            type="button"
+                        <a
+                            href="{{ route('product.edit', $prod->id) }}"
                             class="btn btn-success rounded-4 px-"
                         >
                             Edit
-                        </button>
-                        <button
-                            type="button"
+                        </a>
+                        <a
+                            onclick="deleteProduct({{ $prod->id }})"
                             class="btn btn-danger rounded-4 px-"
                         >
                             Hapus
-                        </button>
-                        <button
-                            type="button"
-                            class="btn rounded-4 px-"
-                            style="background-color: #032d64; color: white"
-                        >
-                            Detail
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -114,4 +131,52 @@
         {{ $product->links('pagination::bootstrap-4') }}
     </div>
 </div>
+@endsection @section('customJs')
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script>
+    var csrfToken = "{{ csrf_token() }}";
+
+    function deleteProduct(id) {
+        var url = "{{ route('product.destroy', 'ID') }}";
+        var newUrl = url.replace("ID", id);
+
+        if (confirm("Yakin ingin menghapus produk ini?")) {
+            $.ajax({
+                url: newUrl,
+                type: "delete", // Change to POST method
+                data: {
+                    _token: csrfToken, // Include CSRF token in the request
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.location.href = "{{ route('product.page') }}";
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert(
+                        "An error occurred while processing your request. Please try again later."
+                    );
+                },
+            });
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Delay closing success alert
+    if (document.getElementById('successAlert')) {
+        setTimeout(function() {
+            $('#successAlert').alert('close');
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+
+    // Delay closing error alert
+    if (document.getElementById('errorAlert')) {
+        setTimeout(function() {
+            $('#errorAlert').alert('close');
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+</script>
 @endsection

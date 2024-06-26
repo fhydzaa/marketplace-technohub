@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\UserDetails;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
@@ -40,20 +41,23 @@ class CartController extends Controller
             }
 
             if ($productAlreadyExist == false) {
-                Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
+                Cart::add($product->id, $product->title, $request->qtyValue, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
 
                 $status = true;
-                $massege = $product->title . ' ditambahkan ke keranjang';
+                $massege = $request->qtyValue .  ' item ' . $product->title . ' ditambahkan ke keranjang';
             } else {
                 $status = false;
-                $massege = $product->title . ' sudah ada di keranjang';
+                $massege = $product->title . ' sudah ada di keranjang' ;
             }
-            
-
         } else {
-            Cart::add($product->id, $product->title, 1, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
+            Cart::add($product->id, $product->title, $request->qtyValue, $product->price, ['product_image' => (!empty($product->product_image)) ? $product->product_image->first() : '']);
             $status = true;
-            $massege = $product->title . ' ditambahkan ke keranjang';
+            $massege = $request->qtyValue .  ' item ' . $product->title . ' ditambahkan ke keranjang';
+        }
+
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
         }
 
         return response()->json([
@@ -63,12 +67,21 @@ class CartController extends Controller
     }
     public function cart()
     {
+        if (Auth::check()) {
+            Cart::restore(Auth::user()->name);
+        }
+
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
-        $user = session('user', Auth::user());
-            //         dd($cartContent);
-            // exit();
-        return view('front.cart', $data, ['user' => $user]);
+        //         dd($cartContent);
+        // exit();  
+        $user = Auth::user();
+        $userdetails = UserDetails::where('user_id', $user->id)->get();
+        $data['userdetails'] = $userdetails;
+        $clientKey = config('midtrans.clientkey');
+        //         dd($clientKey   );
+        // exit();  
+        return view('front.cart', $data, ['user' => $user, 'clientKey' => $clientKey]);
     }
 
     public function updateCart(Request $request)
@@ -86,9 +99,14 @@ class CartController extends Controller
             session()->flash('success', $message);
             $status = true;
         } else {
-            $message = 'Stok item hanya (' . $qty-1 . ')';
+            $message = 'Stok item hanya (' . $qty - 1 . ')';
             session()->flash('error', $message);
             $status = false;
+        }
+
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
         }
 
         return response()->json([
@@ -113,6 +131,11 @@ class CartController extends Controller
         Cart::remove($request->rowId);
         $message = 'Item dihapus dari keranjang';
         session()->flash('error', $message);
+
+        // Store cart
+        if (Auth::check()) {
+            Cart::store(Auth::user()->name);
+        }
 
         return response()->json([
             'status' => true,

@@ -231,3 +231,14 @@ hr {
     color: #bb5252;
     font-size: 1.5em;
   }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding-left: 20px; /* Sesuaikan ukuran padding sesuai kebutuhan */
+    }
+    .dropdown-item i {
+        margin-right: 10px; /* Atur margin-right sesuai kebutuhan untuk jarak antara ikon dan teks */
+        width: 20px; /* Sesuaikan lebar ikon jika diperlukan */
+    }
+

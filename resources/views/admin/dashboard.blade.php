@@ -2,73 +2,115 @@
 
 @section('content')
 <!-- Content Header (Page header) -->
-<section class="content-header">					
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Dashboard</h1>
-            </div>
-            <div class="col-sm-6">
-                
-            </div>
-        </div>
-    </div>
-    <!-- /.container-fluid -->
-</section>
+
 <!-- Main content -->
+<br />
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p>Total Orders</p>
+            <div class="col-lg-5 col-12 mb-4">
+                <div class="row gx-3">
+                    <div class="col-6 mb-4">
+                        <div class="small-box card text-center rounded-4">
+                            <div class="inner">
+                                <h1>{{ $transaction->where('status', 'success')->count() }}</h1>
+                                <p>Transaksi Sukses</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
+                    <div class="col-6 mb-4">
+                        <div class="small-box card text-center rounded-4">
+                            <div class="inner">
+                                <h1>{{ $transaction->where('status', 'pending')->count() }}</h1>
+                                <p>Transaksi Pending</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <div class="col-12 mb-4">
+                        <div class="small-box card text-center rounded-4">
+                            <div class="inner">
+                                <h1>{{ $transaction->unique('user_id')->count() }}</h1>
+                                <p>Total User</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="small-box card text-center rounded-4">
+                            <div class="inner">
+                                <h1>Rp {{ number_format($transaction->where('status', 'success')->sum('total_price'), 0, ',', '.') }}</h1>
+                                <p>Total Penjualan</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
+
+            <div class="col-lg-7 col-12 mb-4">
+                <div class="small-box card mb-3 rounded-4 text-center" style="height: 100%">
                     <div class="inner">
-                        <h3>50</h3>
-                        <p>Total Customers</p>
+                        <br />
+                        <h4>Grafik Penjualan</h4>
+                        <div class="p-6 m-20 bg-white">
+                            {!! $chart->container() !!}
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-6">							
-                <div class="small-box card">
-                    <div class="inner">
-                        <h3>$1000</h3>
-                        <p>Total Sale</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="javascript:void(0);" class="small-box-footer">&nbsp;</a>
                 </div>
             </div>
         </div>
-    </div>					
+
+        <div class="container bg-light h-100 mb-3 rounded-4 text-center">
+            <br />
+            <h4>Transaksi terbaru</h4>
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-start">No Pesanan</th>
+                        <th scope="col" class="text-start">User Name</th>
+                        <th scope="col" class="text-start">Tanggal</th>
+                        <th scope="col" class="text-start">Total Harga</th>
+                        <th scope="col" class="text-start">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if($transaction->isNotEmpty())
+                        @foreach ($transaction->take(5) as $trans)
+                            <tr>
+                                <td class="align-middle text-start" scope="row">{{ $trans->id_order }}</td>
+                                <td class="align-middle text-start">{{ $trans->user->name }}</td>
+                                <td class="align-middle text-start">{{ $trans->created_at }}</td>
+                                <td class="align-middle text-start">Rp {{ number_format($trans->total_price, 0, ',', '.') }}</td>
+                                <td class="align-middle text-start">{{ $trans->status }}</td>
+
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6">Tidak ada transaksi</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- /.card -->
 </section>
 <!-- /.content -->
 @endsection
 
-
-@section('custiomJs')
-<script>
-    console.log("hello")
-</script>
-
+@section('customJs')
+<script src="{{ $chart->cdn() }}"></script>
+{{ $chart->script() }}
 @endsection

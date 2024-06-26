@@ -1,8 +1,12 @@
 @extends('front.layouts.app') @section('content') @if(count($cartContent) > 0)
 <div class="container-fluid">
     @if (Session::has('success'))
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{Session::get('success')}}
+    <div
+        id="successAlert"
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('success') }}
         <button
             type="button"
             class="btn-close"
@@ -11,8 +15,12 @@
         ></button>
     </div>
     @endif @if (Session::has('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{Session::get('error')}}
+    <div
+        id="errorAlert"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+    >
+        {{ Session::get('error') }}
         <button
             type="button"
             class="btn-close"
@@ -26,11 +34,15 @@
         <div class="col-md-8">
             @foreach($cartContent as $item)
             <div
-                class="mt-4 container d-flex flex-row"
+                class="mt-4 container d-flex flex-row product-item"
                 style="
                     border-top: 1px solid black;
                     border-bottom: 1px solid black;
                 "
+                data-id="{{ $item->id }}"
+                data-price="{{ $item->price }}"
+                data-qty="{{ $item->qty }}"
+                data-title="{{ $item->name }}"
             >
                 <div class="py-2">
                     @if (!empty($item->options->product_image->image))
@@ -38,16 +50,14 @@
                         src="{{ asset('uploads/product/small/'.$item->options->product_image->image) }}"
                         class="card-img-top"
                         alt="Product"
-                        width="100%"
-                        height="200px"
+                        style="width: 200px; height: 200px; object-fit: cover"
                     />
                     @else
                     <img
                         src="{{ asset('front-assets/img/product.png') }}"
                         class="card-img-top"
                         alt="Product"
-                        width="100%"
-                        height="200px"
+                        style="width: 200px; height: 200px; object-fit: cover"
                     />
                     @endif
                 </div>
@@ -71,6 +81,7 @@
                             class="px-2 form-control qty-input"
                             style="width: 100px; height: 30px"
                             value="{{ $item->qty }}"
+                            readonly
                         />
                         <button
                             type="button"
@@ -85,12 +96,23 @@
                                 height="20px"
                             />
                         </button>
+                        <button
+                            type="button"
+                            class="btn p-0 border-0 bg-transparent delete d-flex align-items-center"
+                            data-id="{{ $item->rowId }}"
+                        >
+                            <img
+                                src="{{ asset('front-assets/img/delete.png') }}"
+                                width="20px"
+                                height="20px"
+                            />
+                        </button>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
-        <div class="col-md-3 mt-4" >
+        <div class="col-md-3 mt-4">
             <div class="card cart-summery">
                 <div class="sub-title">
                     <h2 class="bg-white">Total</h2>
@@ -98,7 +120,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between pb-2">
                         <div>Subtotal</div>
-                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}</div>
+                        <div>
+                            Rp
+                            {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between pb-2">
                         <div>Shipping</div>
@@ -106,10 +131,19 @@
                     </div>
                     <div class="d-flex justify-content-between summery-end">
                         <div>Total</div>
-                        <div>Rp {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}    </div>
+                        <div
+                            id="cart-subtotal"
+                            data-subtotal="{{ Cart::subtotal(0,0,'') }}"
+                        >
+                            Rp
+                            {{ number_format(Cart::subtotal(0,0,''), 0, ',', '.') }}
+                        </div>
                     </div>
                     <div class="pt-5">
-                        <a href="#" class="btn-dark btn btn-block w-100"
+                        <a
+                            href="#"
+                            id="pay-button"
+                            class="btn-dark btn btn-block w-100"
                             >Proceed to Checkout</a
                         >
                     </div>
@@ -124,18 +158,22 @@
 </div>
 @endif @endsection @section('customJs')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="	
+    SB-Mid-client-3QtQY0HBxub_GCf3
+    "
+></script>
 <script>
     $(document).ready(function () {
         $(".add").click(function () {
             var qtyElement = $(this).siblings(".qty-input");
             var qtyValue = parseInt(qtyElement.val());
-            if (qtyValue < 10) {
-                qtyElement.val(qtyValue + 1);
+            qtyElement.val(qtyValue + 1);
 
-                var rowId = $(this).data("id");
-                var newQty = qtyElement.val();
-                updateCart(rowId, newQty);
-            }
+            var rowId = $(this).data("id");
+            var newQty = qtyElement.val();
+            updateCart(rowId, newQty);
         });
 
         $(".sub").click(function () {
@@ -148,13 +186,18 @@
                 var newQty = qtyElement.val();
                 updateCart(rowId, newQty);
             }
-            if ((qtyValue == 1)) {
+            if (qtyValue == 1) {
                 qtyElement.val(qtyValue - 1);
 
                 var rowId = $(this).data("id");
                 var newQty = qtyElement.val();
                 deleteCart(rowId);
             }
+        });
+
+        $(".delete").click(function () {
+            var rowId = $(this).data("id");
+            deleteCart(rowId);
         });
 
         function updateCart(rowId, qty) {
@@ -194,5 +237,101 @@
             });
         }
     });
+</script>
+
+<script>
+    // Delay closing success alert
+    if (document.getElementById("successAlert")) {
+        setTimeout(function () {
+            $("#successAlert").alert("close");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+
+    // Delay closing error alert
+    if (document.getElementById("errorAlert")) {
+        setTimeout(function () {
+            $("#errorAlert").alert("close");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+</script>
+
+<script type="text/javascript">
+    document.getElementById("pay-button").onclick = function () {
+        let p_id = [];
+        let p_title = [];
+        let p_qty = [];
+        let p_price = [];
+        let p_subtotal = [];
+        let products = [];
+
+        // Mengambil semua elemen dengan class 'product-item'
+        let productItems = document.querySelectorAll(".product-item");
+
+        // Iterasi melalui setiap elemen untuk mendapatkan ID dan harga produk
+        productItems.forEach(function (item) {
+            let productId = item.getAttribute("data-id");
+            let price = item.getAttribute("data-price");
+            let qty = item.getAttribute("data-qty");
+            let title = item.getAttribute("data-title");
+
+            // Tambahkan produk ke array
+            p_id.push({
+                id: productId,
+            });
+
+            p_price.push({
+                price: price,
+            });
+
+            p_qty.push({
+                qty: qty,
+            });
+
+            p_title.push({
+                title: title,
+            });
+
+            p_subtotal.push({
+                subtotal: qty*price,
+            });
+
+            products.push({
+                id: productId,
+                name: title,
+                quantity: qty,
+                price: price,
+            });
+        });
+
+        let subtotalElement = document.getElementById("cart-subtotal");
+        let total = subtotalElement.getAttribute("data-subtotal");
+
+        // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
+        $.ajax({
+            url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                products:products,
+                id: p_id, // Mengirimkan array produk
+                price: p_price, // Mengirimkan array produk
+                qty: p_qty, // Mengirimkan array produk
+                title: p_title, // Mengirimkan array produk
+                subtotal: p_subtotal, // Mengirimkan array produk
+                total: total,
+            },
+            success: function (response) {
+                if (response.status) {
+                    window.location.href = "{{ route('front.transaksi') }}";
+                } else {
+                    alert("Gagal memproses transaksi.");
+                }
+            },
+            error: function (error) {
+                alert("Terjadi kesalahan saat memproses transaksi.");
+                console.error(error);
+            },
+        });
+    };
 </script>
 @endsection
