@@ -118,7 +118,7 @@
                                     <th scope="col">Harga</th>
                                     <th scope="col">Jumlah</th>
                                     @if($trans->status == 'success')
-                                    <th scope="col">License</th>\
+                                    <th scope="col">License</th>
                                     @endif  
                                 </tr>
                             </thead>

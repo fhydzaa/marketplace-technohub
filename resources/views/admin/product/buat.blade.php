@@ -67,17 +67,21 @@
                 />
             </div>
             <div
-                class="d-flex flex-row justify-content-center align-items-center mb-3 w-100 gap-3"
-            >
-                <label for="qty" class="col-2 form-label">Stok</label>
-                <input
-                    type="text"
-                    name="qty"
-                    class="col-10 form-control"
-                    id="qty"
-                    style="width: 500px"
-                />
-            </div>
+    class="d-flex flex-row justify-content-center align-items-center mb-3 w-100 gap-3"
+>
+    <label for="qty" class="col-2 form-label">Stok</label>
+    <div>
+        <input
+            type="text"
+            name="qty"
+            class="form-control"
+            id="qty"
+            style="width: 500px"
+        />
+        <small class="text-danger" style="font-style: italic;">*maksimal stok 100</small>
+    </div>
+</div>
+     
             <div
                 class="d-flex flex-row justify-content-center align-items-center mb-3 w-100 gap-3"
             >
