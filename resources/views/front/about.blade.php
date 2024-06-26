@@ -1,4 +1,5 @@
-@extends('front.layouts.app')  
+@extends('front.layouts.app')
+@section('content')
 <div class="d-flex flex-column gap-3 align-items-center justify-content-evenly py-3">
       
       <div class="d-flex justify-content-center rounded-4 mx-2 align-items-center">
@@ -58,3 +59,4 @@
         </div>
       </div>
 <div>
+@endsection
