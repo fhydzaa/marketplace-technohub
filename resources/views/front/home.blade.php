@@ -123,7 +123,17 @@
             <div class="col-lg-6">
                 <h2 class="title-about">About Us</h2>
                 <p class="deskripsi-about">
-                TechnoHub adalah aplikasi marketplace yang memungkinkan pengguna untuk menjual dan membeli berbagai produk digital game, seperti game software, in-game currency, DLC (Downloadable Content), dan item virtual lainnya. Dengan fitur user-friendly, platform yang canggih, dan dukungan pelanggan 24/7, TechnoHub memberikan pengalaman transaksi yang aman dan nyaman bagi semua pengguna. Selain itu, aplikasi ini juga menawarkan sistem rating dan review yang transparan, membantu pembeli membuat keputusan yang lebih bijak serta mendorong penjual untuk mempertahankan kualitas produk mereka.
+                    TechnoHub adalah aplikasi marketplace yang memungkinkan
+                    pengguna untuk menjual dan membeli berbagai produk digital
+                    game, seperti game software, in-game currency, DLC
+                    (Downloadable Content), dan item virtual lainnya. Dengan
+                    fitur user-friendly, platform yang canggih, dan dukungan
+                    pelanggan 24/7, TechnoHub memberikan pengalaman transaksi
+                    yang aman dan nyaman bagi semua pengguna. Selain itu,
+                    aplikasi ini juga menawarkan sistem rating dan review yang
+                    transparan, membantu pembeli membuat keputusan yang lebih
+                    bijak serta mendorong penjual untuk mempertahankan kualitas
+                    produk mereka.
                 </p>
                 <div class="border-0">
                     <a
@@ -219,7 +229,6 @@
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
                         <a class="fs-5 text-light text-decoration-none">
-                            
                             <i class="fa-brands fa-twitter"></i> Twitter</a
                         >
                     </div>
@@ -241,8 +250,7 @@
     </div>
     <div class="d-flex justify-content-center mt-3">
         <small class="text-light"
-            >Copyright &copy; 2023 Technohub. All Rights Reserved.</small
-        >
+            >Copyright &copy; 2023 Technohub. All Rights Reserved.</small>
     </div>
 </footer>
 @endsection @section('custuomJs')

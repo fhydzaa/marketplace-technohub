@@ -1,7 +1,5 @@
-@extends('front.layouts.app')
-@section('content')
+@extends('front.layouts.app')  
 <div class="d-flex flex-column gap-3 align-items-center justify-content-evenly py-3">
-      
       <div class="d-flex justify-content-center rounded-4 mx-2 align-items-center">
         <div>
           <img class="rounded-4" src="{{ asset('front-assets/img/aboutrafiki1.png') }}" width="500px" height="500px" alt="Gambar About">
@@ -23,35 +21,35 @@
       </div>
       <div class="d-flex flex-row flex-wrap gap-5 justify-content-evenly mt-2 px-5 py-5">
         <div class="card rounded-4" style="width: 18rem">
-          <img src="{{ asset('front-assets/img/instagramig.png') }}" class="rounded-4" alt="Gambar About" />
+          <img src="{{ asset('front-assets/img/galih.jpg') }}" class="rounded-4" alt="Gambar About" />
           <div class="card-body">
             <h5 class="fw-bold card-title">Galih Anggriawan</h5>
             <p class="card-text">Project Owner</p>
           </div>
         </div>
         <div class="card rounded-4" style="width: 18rem">
-          <img src="{{ asset('front-assets/img/instagramig.png') }}" class="rounded-4" alt="Gambar About" />
+          <img src="{{ asset('front-assets/img/faiq.JPG') }}" class="rounded-4" alt="Gambar About" />
           <div class="card-body">
             <h5 class="fw-bold card-title">Faiq Hidayat Dzakwan</h5>
             <p class="card-text">Scrum Master</p>
           </div>
         </div>
         <div class="card rounded-4" style="width: 18rem">
-          <img src="{{ asset('front-assets/img/instagramig.png') }}" class="rounded-4" alt="Gambar About" />
+          <img src="{{ asset('front-assets/img/yakis.jpeg') }}" class="rounded-4" alt="Gambar About" />
           <div class="card-body">
             <h5 class="fw-bold card-title">Yackis Pratama Awi</h5>
             <p class="card-text">UI/UX Desainer</p>
           </div>
         </div>
         <div class="card rounded-4" style="width: 18rem">
-          <img src="{{ asset('front-assets/img/instagramig.png') }}" class="rounded-4" alt="Gambar About" />
+          <img src="{{ asset('front-assets/img/rahman.jpeg') }}" class="rounded-4" alt="Gambar About" />
           <div class="card-body">
             <h5 class="fw-bold card-title">Rahman Hakim</h5>
             <p class="card-text">Front End Web Developer</p>
           </div>
         </div>
         <div class="card rounded-4" style="width: 18rem">
-          <img src="{{ asset('front-assets/img/instagramig.png') }}" class="rounded-4" alt="Gambar About" />
+          <img src="{{ asset('front-assets/img/ihya.jpeg') }}" class="rounded-4" alt="Gambar About" />
           <div class="card-body">
             <h5 class="fw-bold card-title">Muhammad Ihya' Ulumuddin</h5>
             <p class="card-text">Back End Web Developer</p>
@@ -59,4 +57,3 @@
         </div>
       </div>
 <div>
-@endsection
