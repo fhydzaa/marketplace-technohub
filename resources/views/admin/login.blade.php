@@ -86,18 +86,6 @@
                                     </p>
                                     @enderror
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <input
-                                        type="checkbox"
-                                        class="form-check-input remember-me"
-                                        id="remember-me"
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        for="remember-me"
-                                        >Remember Me</label
-                                    >
-                                </div>
                                 <div class="mb-5">
                                     <button
                                         type="submit"

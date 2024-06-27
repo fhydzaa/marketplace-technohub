@@ -1,4 +1,6 @@
 @extends('admin.layouts.app') @section('content')
+
+
 <div class="container d-flex align-items-center justify-content-center">
     <form
         class="d-flex flex-row justify-content-center align-items-center gap-4"
@@ -12,13 +14,6 @@
                 name="search"
                 placeholder="Cari Produk "
             />
-            <!-- <input
-                  value="{{ Request::get('search') }}"
-                  name="search"
-                  id="search"
-                  type="text"
-                  placeholder="Cari Produk"
-              /> -->
         </div>
         <div class="py-4">
             <button type="submit" class="btn btn-primary rounded-4 px-4">
@@ -27,7 +22,14 @@
         </div>
     </form>
 </div>
-<div class="container bg-light h-100 mb-3 rounded-4">
+<div class="container bg-light h-100 mb-3 rounded-4" style="position: relative;">
+    
+    <div id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <div class="py-3">
         <a
             href="{{ route('product.buat') }}"
@@ -133,14 +135,22 @@
 </div>
 @endsection @section('customJs')
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var csrfToken = "{{ csrf_token() }}";
 
-    function deleteProduct(id) {
-        var url = "{{ route('product.destroy', 'ID') }}";
-        var newUrl = url.replace("ID", id);
+function deleteProduct(id) {
+    var url = "{{ route('product.destroy', 'ID') }}";
+    var newUrl = url.replace("ID", id);
 
-        if (confirm("Yakin ingin menghapus produk ini?")) {
+    Swal.fire({
+        title: 'Yakin ingin menghapus produk ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
             $.ajax({
                 url: newUrl,
                 type: "delete", // Change to POST method
@@ -150,20 +160,66 @@
                 dataType: "json",
                 success: function (response) {
                     if (response.status) {
-                        window.location.href = "{{ route('product.page') }}";
+                        Swal.fire(
+                            'Deleted!',
+                            'Produk telah dihapus.',
+                            'success'
+                        ).then(() => {
+                            window.location.href = "{{ route('product.page') }}";
+                        });
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);
-                    alert(
-                        "An error occurred while processing your request. Please try again later."
+                    Swal.fire(
+                        'Error!',
+                        'An error occurred while processing your request. Please try again later.',
+                        'error'
                     );
                 },
             });
         }
-    }
+    });
+}
+
+    // var csrfToken = "{{ csrf_token() }}";
+
+    // function deleteProduct(id) {
+    //     var url = "{{ route('product.destroy', 'ID') }}";
+    //     var newUrl = url.replace("ID", id);
+
+    //     if (confirm("Yakin ingin menghapus produk ini?")) {
+    //         $.ajax({
+    //             url: newUrl,
+    //             type: "delete", // Change to POST method
+    //             data: {
+    //                 _token: csrfToken, // Include CSRF token in the request
+    //             },
+    //             dataType: "json",
+    //             success: function (response) {
+    //                 if (response.status) {
+    //                     window.location.href = "{{ route('product.page') }}";
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(xhr.responseText);
+    //                 alert(
+    //                     "An error occurred while processing your request. Please try again later."
+    //                 );
+    //             },
+    //         });
+    //     }
+    // }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        var spinner = document.getElementById("loadingSpinner");
+        spinner.style.display = "none";
+    }, 1000); // 3000 milliseconds = 3 seconds
+});
+</script>
 <script>
     // Delay closing success alert
     if (document.getElementById('successAlert')) {
