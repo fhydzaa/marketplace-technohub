@@ -56,6 +56,7 @@ class ProductController extends Controller
             'title' => 'required',
             'slug' => 'required',
             'price' => 'required|numeric',
+            'qty' => 'required|integer|max:100'
         ];
 
         $validator = Validator::make($request->all(), $rules);

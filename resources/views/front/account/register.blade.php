@@ -16,8 +16,18 @@
     <body>
         @if (session('error'))
         <script>
+            // document.addEventListener("DOMContentLoaded", function () {
+            //     alert("{{ session('error') }}");
+            // });
             document.addEventListener("DOMContentLoaded", function () {
-                alert("{{ session('error') }}");
+                const errorMessage = "{{ session('error') }}";
+                if (errorMessage) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
             });
         </script>
         @endif @if (session('success'))
@@ -25,6 +35,13 @@
             document.addEventListener("DOMContentLoaded", function () {
                 alert("{{ session('success') }}");
             });
+            // Swal.fire({
+            //     position: "top-start",
+            //     icon: "success",
+            //     title: "Your work has been saved",
+            //     showConfirmButton: true,
+            //     timer: 1500
+            // });
         </script>
         @endif
         <div class="container-login">
@@ -165,7 +182,7 @@
             crossorigin="anonymous"
         ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+        
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#registrationForm").submit(function (event) {

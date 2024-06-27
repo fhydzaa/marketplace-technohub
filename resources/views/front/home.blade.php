@@ -114,20 +114,21 @@
             <div class="col-lg-6">
                 <h2 class="title-about">About Us</h2>
                 <p class="deskripsi-about">
-                    Selamat datang di TechnoHub! Kami adalah komunitas digital
-                    yang menyediakan pengalaman berbelanja produk digital
-                    terbaik untuk para pecinta teknologi. Dengan kurasi produk
-                    yang ketat dan jaringan mitra luas, kami hadir dengan
-                    pilihan produk terkini dan berkualitas tinggi, memastikan
-                    kenyamanan dan keamanan dalam bertransaksi Lorem ipsum dolor
-                    sit amet consectetur, adipisicing elit. Aperiam perspiciatis
-                    dolorum excepturi enim labore facilis illum nam ipsa, maxime
-                    voluptates totam modi ex, repudiandae sit magni aut laborum
-                    odio rerum.
+                    TechnoHub adalah aplikasi marketplace yang memungkinkan
+                    pengguna untuk menjual dan membeli berbagai produk digital
+                    game, seperti game software, in-game currency, DLC
+                    (Downloadable Content), dan item virtual lainnya. Dengan
+                    fitur user-friendly, platform yang canggih, dan dukungan
+                    pelanggan 24/7, TechnoHub memberikan pengalaman transaksi
+                    yang aman dan nyaman bagi semua pengguna. Selain itu,
+                    aplikasi ini juga menawarkan sistem rating dan review yang
+                    transparan, membantu pembeli membuat keputusan yang lebih
+                    bijak serta mendorong penjual untuk mempertahankan kualitas
+                    produk mereka.
                 </p>
                 <div class="border-0">
                     <a
-                        href="#"
+                        href="{{ route('front.about') }}"
                         id="buttonAbout"
                         class="buttonAbout btn btn-primary rounded-4 px-3 py-2"
                         >Learn More</a
@@ -219,7 +220,6 @@
                         class="d-flex flex-row gap-2 align-items-center justify-content-start"
                     >
                         <a class="fs-5 text-light text-decoration-none">
-                            
                             <i class="fa-brands fa-twitter"></i> Twitter</a
                         >
                     </div>
@@ -229,11 +229,11 @@
                 <div class="mt-4 d-flex flex-column gap-1 align-items-center">
                     <h2 class="text-warning">Need Help</h2>
                     <div class="d-flex flex-column gap-3 text-light">
-                        <h5 class="">
+                        <p class="">
                             088980034027 (8 am -12 am, monday - saturday)
-                        </h5>
-                        <h5>082325980633(1 pm - 6 pm, monday - saturday)</h5>
-                        <h5>technohub2334@gmail.com</h5>
+                        </p>
+                        <p>082325980633(1 pm - 6 pm, monday - saturday)</p>
+                        <p>technohub2334@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -241,8 +241,7 @@
     </div>
     <div class="d-flex justify-content-center mt-3">
         <small class="text-light"
-            >Copyright &copy; 2023 PERLCANDUNIAWI. All Rights Reserved.</small
-        >
+            >Copyright &copy; 2023 Technohub. All Rights Reserved.</small
     </div>
 </footer>
 @endsection @section('custuomJs')

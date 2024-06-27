@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Bootstrap demo</title>
+        <title>Technohub</title>
         <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet" integrity="sha384-...="anonymous" />
@@ -28,7 +28,7 @@
             name="keywords"
             content="beli game, game terbaru, game populer, e-commerce game, toko game online"
         />
-        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-light fixed-top">
