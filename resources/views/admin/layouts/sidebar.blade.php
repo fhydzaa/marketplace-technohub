@@ -69,7 +69,7 @@
                         class="col-4 d-flex align-items-center justify-content-center"
                     >
                         <img
-                            src="{{ asset('dashboard-assets/dashboard.png') }}"
+                            src="{{ asset('dashboard-assets/link1.png') }}"
                             alt="dashboard image"
                             width="30px"
                             height="30px"
@@ -87,7 +87,7 @@
                         class="col-4 d-flex align-items-center justify-content-center"
                     >
                         <img
-                            src="{{ asset('dashboard-assets/dashboard.png') }}"
+                            src="{{ asset('dashboard-assets/link2.png') }}"
                             alt="dashboard image"
                             width="30px"
                             height="30px"
