@@ -28,7 +28,7 @@
             name="keywords"
             content="beli game, game terbaru, game populer, e-commerce game, toko game online"
         />
-        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-light fixed-top">

@@ -83,7 +83,6 @@ class AuthController extends Controller
                     // Pengguna baru: Redirect ke account.profile
                     session()->flash('success', 'Login berhasil!');
                     return redirect()->route('account.profile')->with('success', 'Login berhasil!');
-                    
                 }
                 // return view('front.home');
             } else {
