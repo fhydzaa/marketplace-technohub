@@ -12,13 +12,13 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="{{ asset('front-assets/style.css') }}" />
+      
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"/>
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
         />
-
+        <link rel="stylesheet" href="{{ asset('front-assets/style.css') }}" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta
             name="description"

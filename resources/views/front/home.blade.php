@@ -241,7 +241,7 @@
     </div>
     <div class="d-flex justify-content-center mt-3">
         <small class="text-light"
-            >Copyright &copy; 2023 Technohub. All Rights Reserved.</small
+            >Copyright &copy; 2023 Technohub. All Rights Reserved.</small>
     </div>
 </footer>
 @endsection @section('custuomJs')

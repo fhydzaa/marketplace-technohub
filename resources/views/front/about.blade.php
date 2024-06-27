@@ -1,6 +1,5 @@
 @extends('front.layouts.app')  
 <div class="d-flex flex-column gap-3 align-items-center justify-content-evenly py-3">
-
       <div class="d-flex justify-content-center rounded-4 mx-2 align-items-center">
         <div>
           <img class="rounded-4" src="{{ asset('front-assets/img/aboutrafiki1.png') }}" width="500px" height="500px" alt="Gambar About">
