@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<!-- Content Header (Page header) -->
 
-<!-- Main content -->
 <br />
 <section class="content">
     <!-- Default box -->

@@ -1,4 +1,13 @@
 @extends('front.layouts.app') @section('content')
+@if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Berhasil Menambahkan Profile'
+            });
+        </script>
+        @endif
 <section
     class="hero-element d-flex align-items-center justify-content-evenly py-5"
 >

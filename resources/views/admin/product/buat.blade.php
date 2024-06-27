@@ -120,38 +120,8 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"
 ></script>
-<!-- <script>
-    // Ambil elemen tombol dan input file
-    var uploadButton = document.getElementById("uploadButton");
-    var imagePreview = document.getElementById("imagePreview");
-    var fileInput = document.getElementById("gambarInput");
-
-    // // Tambahkan event listener untuk klik pada tombol
-    uploadButton.addEventListener("click", function () {
-        // Trigger event klik pada input file saat tombol diklik
-        fileInput.click();
-    });
-
-    // Tambahkan event listener untuk saat gambar dipilih
-    fileInput.addEventListener("change", function () {
-        // Bersihkan preview sebelum menampilkan gambar yang baru dipilih
-        imagePreview.innerHTML = "";
-
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var image = new Image();
-            image.src = e.target.result;
-            image.alt = "mantap";
-            image.style.width = "200px";
-            image.style.borderRadius = "50%";
-            imagePreview.appendChild(image);
-        };
-        reader.readAsDataURL(file);
-    });
-</script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-        // Correct the event listener for the title input field
         $("#title").change(function () {
             let element = $(this);
             $("button[type=submit]").prop("disabled", true);
@@ -168,23 +138,63 @@
                 },
             });
         });
-
+            
         $("#productForm").submit(function (event) {
-            event.preventDefault();
-            var fromArray = $(this).serializeArray();
-            $.ajax({
-                url: '{{ route("product.store") }}',
-                type: "post",
-                data: fromArray,
-                dataType: "json",
-                success: function (response) {
-                    window.location.href = "{{ route('product.page') }}";
-                },
-                error: function () {
-                    console.log("Something Wrong");
-                },
-            });
+        event.preventDefault(); 
+        
+        Swal.fire({
+            title: 'Apakah Data yang di tambahkan sudah benar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var fromArray = $(this).serializeArray();
+                $.ajax({
+                    url: '{{ route("product.store") }}',
+                    type: "post",
+                    data: fromArray,
+                    dataType: "json",
+                    success: function (response) {
+                        Swal.fire(
+                            'Berhasil!',
+                            'Produk Berhasil Ditambahkan',
+                            'success'
+                        ).then(() => {
+                            window.location.href = "{{ route('product.page') }}";
+                        });
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Gagal!',
+                            'Ada yang salah, silakan coba lagi.',
+                            'error'
+                        );
+                    },
+                });
+            } else {
+                console.log("Pengiriman form dibatalkan");
+            }
         });
+    });
+        // $("#productForm").submit(function (event) {
+        //     event.preventDefault();
+        //     var fromArray = $(this).serializeArray();
+        //     $.ajax({
+        //         url: '{{ route("product.store") }}',
+        //         type: "post",
+        //         data: fromArray,
+        //         dataType: "json",
+        //         success: function (response) {
+        //             window.location.href = "{{ route('product.page') }}";
+        //         },
+        //         error: function () {
+        //             console.log("Something Wrong");
+        //         },
+        //     });
+        // });
 
         Dropzone.autoDiscover = false;
         const dropzone = $("#image").dropzone({

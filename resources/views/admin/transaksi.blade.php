@@ -12,13 +12,6 @@
                 name="search"
                 placeholder="Cari Produk "
             />
-            <!-- <input
-                  value="{{ Request::get('search') }}"
-                  name="search"
-                  id="search"
-                  type="text"
-                  placeholder="Cari Produk"
-              /> -->
         </div>
         <div class="py-4">
             <button type="submit" class="btn btn-primary rounded-4 px-4">

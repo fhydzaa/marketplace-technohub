@@ -56,6 +56,7 @@
             rel="stylesheet"
             href="{{ asset('admin-assets/css/custom.css') }}"
         />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <div class="d-flex flex-row" style="min-height: 100vh">
