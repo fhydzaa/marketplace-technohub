@@ -198,7 +198,7 @@
                             @endforeach
 
                             @else
-                            <p>Produk belum memiliki ulasan</p>
+                            <p>Produk ini belum memiliki ulasan</p>
                             @endif
                         </div>
                     </div>
