@@ -1,4 +1,13 @@
 @extends('front.layouts.app') @section('content')
+@if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Berhasil Mengedit Profile'
+            });
+        </script>
+        @endif
 <div
     class="d-flex flex-column justify-content-center align-items-center"
     style="min-height: 100vh"
