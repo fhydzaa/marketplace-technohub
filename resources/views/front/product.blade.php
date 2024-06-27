@@ -8,25 +8,36 @@
                 class="carousel slide"
                 data-bs-ride="carousel"
             >
-                <div class="carousel-inner bg-light">
-                    @if($product->product_image)
+            <div class="carousel-inner bg-light">
+                @if(count($product->product_image) > 0)
                     @foreach($product->product_image as $key => $productImage)
-                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img
+                                src="{{ asset('uploads/product/large/'.$productImage->image) }}"
+                                class="d-block w-100"
+                                alt="Product Image"
+                                style="width: 700px; height: 500px; object-fit: cover;"
+                            />
+                        </div>
+                    @endforeach 
+                @else
+                    <div class="carousel-item active">
                         <img
-                            class="w-100 h-100"
-                            src="{{ asset('uploads/product/large/'.$productImage->image) }}"
-                            alt="Image"
+                            src="{{ asset('front-assets/img/product.png') }}"
+                            class="d-block w-100"
+                            alt="Default Image"
+                            style="width: 700px; height: 500px; object-fit: cover;"
                         />
                     </div>
-                    @endforeach @endif
-                </div>
+                @endif
+            </div>
                 <a
                     class="carousel-control-prev"
                     href="#product-carousel"
                     data-bs-slide="prev"
                 >
                     <i
-                        class="fa fa-2x fa-angle-left text-dark"
+                        class="fa-solid fa-angle-left text-dark"
                         style="
                             background-color: rgba(255, 255, 255, 0.3);
                             padding: 30px;
@@ -40,7 +51,7 @@
                     data-bs-slide="next"
                 >
                     <i
-                        class="fa fa-2x fa-angle-right text-dark"
+                        class="fa-solid fa-angle-right text-dark"
                         style="
                             background-color: rgba(255, 255, 255, 0.3);
                             padding: 30px;
@@ -59,55 +70,69 @@
 
         <div class="col-6 d-flex flex-column mt-5">
             <h2>{{ $product->title }}</h2>
-            <div class="d-flex align-items-center">
-                <h5>{{ $avgRating }}</h5>
-                <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
-                    <div class="back-stars">
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        <div class="front-stars" style="width: {{ $avgRatingPer }}%">
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                            <h5 class="fa fa-star" aria-hidden="true"></h5>
-                        </div>
-                    </div>
+            <div class="d-flex align-items-end">
+                <div class="d-flex align-items-center">
+                    <h5>{{ $avgRating }}</h5>
                 </div>
-                <div class="ps-2">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
+                <div class="ps-3 star-rating" title="{{ $avgRatingPer }}%">
+                    <div class="star-rating mt-2">
+                        <div class="back-stars">
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <div class="front-stars" style="width: {{ $avgRatingPer }}%">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+                <div class="ps-2 d-flex align-items-center">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Reviews'}})</div>
             </div>
             <br><br>
             <h4>Rp {{ number_format($product->price, 0, ',', '.') }}</h4>
             <p>Stok: {{ $product->qty }}</p>
 
-        
+            @if($product->qty)
             <form class="mb-4">
                 <p>Kuantitas</p>
-                <div class="d-flex flex-row gap-1 align-item-center">
-                    <img
-                        src="{{ asset('front-assets/img/kurang.png') }}"
-                        alt="kurang"
-                        width="40px"
-                        height="40px"
-                        style="cursor: pointer"
-                    />
+                <div class="d-flex flex-row gap-2 align-items-center mt-5">
+                    <button
+                        type="button"
+                        class="btn p-0 border-0 bg-transparent sub d-flex align-items-center"
+                        data-id="{{ $product->rowId }}"
+                    >
+                        <img
+                            src="{{ asset('front-assets/img/kurang.png') }}"
+                            width="40px"
+                            height="40px"
+                        />
+                    </button>
                     <input
                         type="text"
-                        id="tambahkurang"
-                        name="tambahkurang"
-                        class="text-center px-2"
-                        style="width: 100px"
+                        class="px-2 form-control qty-input"
+                        style="width: 100px; height: 40px"
+                        value="1"
+                        readonly
                     />
-                    <img
-                        src="{{ asset('front-assets/img/tambahh.png') }}"
-                        width="40px"
-                        height="40px"
-                        alt="tambah"
-                        style="cursor: pointer"
-                    />
+                    <button
+                        type="button"
+                        class="btn p-0 border-0 bg-transparent add d-flex align-items-center"
+                        data-id="{{ $product->rowId }}"
+                    >
+                        <img
+                            src="{{
+                                asset('front-assets/img/tambahh.png')
+                            }}"
+                            width="40px"
+                            height="40px"
+                        />
+                    </button>
                 </div>
                 <div class="container mt-5 d-flex flex-row gap-4">
                     @csrf
@@ -119,6 +144,9 @@
                         Masukkan Keranjang
                     </a>
                     <a
+                    href="javascript:void(0)"
+                    onclick="buynow({{ $product->id }}, {{ $product->price }}, '{{ addslashes($product->title) }}');"
+                        
                         class="btn rounded-4"
                         style="background-color: darkcyan; color: white"
                     >
@@ -126,6 +154,12 @@
                     </a>
                 </div>
             </form>
+            @else
+            <div class="out-of-stock text-center p-5 my-5" style="border: 2px dashed red; border-radius: 10px; background-color: #f8d7da; color: #721c24;">
+                <h1 style="font-size: 2.5rem; font-weight: bold;">HABISS</h1>
+                <p style="font-size: 1.2rem;">Maaf, produk ini sedang tidak tersedia.</p>
+            </div>
+            @endif
             <div class="d-flex flex-column gap-3 mb-5">
                 <hr class="mt-2" style="width: 100%" />
                 <h4>Ulasan Produk</h4>
@@ -141,21 +175,21 @@
                                 <div class="rating-group mb-4">
                                     <span class="author"><strong>{{ $rating->username }}</strong></span>
                                     <div class="star-rating mt-2">
-                                        <div class="back-stars">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <div class="front-stars" style="width: {{ $ratingPer }}%">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="back-stars">
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            <div class="front-stars" style="width: {{ $ratingPer }}%">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
                                     <div class="my-3">
                                         <p>{{ $rating->comment }}</p>
                                     </div>
@@ -169,15 +203,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="container mt-2 d-flex justify-content-end">
-                    <a
-                        href="{{ route('front.review', $product->slug) }}"
-                        class="btn"
-                        style="background-color: #123159; color: white"
-                        >Tambah Ulasan</a
-                    >
-                </div>
             </div>
         </div>
     </div>
@@ -186,10 +211,13 @@
 @endsection @section('customJs')
 <script type="text/javascript">
     function addToCart(id) {
+        var qtyValue = $('.qty-input').val();
         $.ajax({
             url: '{{ route("front.addToCart") }}',
             type: "post",
-            data: { id: id },
+            data: { id: id,
+                qtyValue: qtyValue
+             },
             dataType: "json",
             success: function (response) {
                 if (response.status == true) {
@@ -208,5 +236,110 @@
             },
         });
     }
+
+    function buynow(id, price, title ){
+            var qty= $('.qty-input').val();
+            let total = price * qty;
+            let products = [];
+
+
+            products.push({
+                id: id,
+                name: title,
+                quantity: qty,
+                price: price,
+            });
+        // Kirim permintaan AJAX ke server untuk menyimpan data transaksi
+            $.ajax({
+                url: "{{ route('front.transaksiProcess') }}", // Sesuaikan URL dengan rute Anda
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    products:products,
+                    id: id, // Mengirimkan array produk
+                    price: price,
+                    qty:qty,
+                    title: title,
+                    subtotal: total,
+                    total: total,
+
+                },
+                success: function (response) {
+                    if (response.status) {
+                        window.location.href = "{{ route('front.transaksi') }}";
+                    } else {
+                        alert("Gagal memproses transaksi.");
+                    }
+                },
+                error: function (error) {
+                    alert("Terjadi kesalahan saat memproses transaksi.");
+                    console.error(error);
+                },
+            });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $(".add").click(function () {
+            var qtyElement = $(this).siblings(".qty-input");
+            var qtyValue = parseInt(qtyElement.val());
+            if (qtyValue < 10) {
+                qtyElement.val(qtyValue + 1);
+
+                var rowId = $(this).data("id");
+                var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
+            }
+        });
+
+        $(".sub").click(function () {
+            var qtyElement = $(this).siblings(".qty-input");
+            var qtyValue = parseInt(qtyElement.val());
+            if (qtyValue > 1) {
+                qtyElement.val(qtyValue - 1);
+
+                var rowId = $(this).data("id");
+                var newQty = qtyElement.val();
+                updateCart(rowId, newQty);
+            }
+        });
+
+        function updateCart(rowId, qty) {
+            $.ajax({
+                url: '{{ route("front.updateCart") }}',
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rowId: rowId,
+                    qty: qty,
+                },
+                dataType: "json",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Update cart failed:", error);
+                },
+            });
+        }
+
+        function deleteCart(rowId) {
+            $.ajax({
+                url: '{{ route("front.deleteCart.cart") }}',
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    rowId: rowId,
+                },
+                dataType: "json",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Update cart failed:", error);
+                },
+            });
+        }
+    });
 </script>
 @endsection
